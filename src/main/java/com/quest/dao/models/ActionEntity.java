@@ -1,5 +1,6 @@
 package com.quest.dao.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ActionEntity extends BaseEntity{
@@ -7,6 +8,13 @@ public class ActionEntity extends BaseEntity{
     public ActionEntity(int id, String description, int nodeId) {
         super(id, description);
         this.nodeId = nodeId;
+        itemsRequirements = new ArrayList<>();
+        statsRequirements = new ArrayList<>();
+    }
+
+    public ActionEntity()
+    {
+        super();
         itemsRequirements = new ArrayList<>();
         statsRequirements = new ArrayList<>();
     }

@@ -1,6 +1,8 @@
 package com.quest.dao.models;
 
-public class BaseEntity {
+import java.io.Serializable;
+
+public class BaseEntity implements Serializable {
     private int id;
     private String description;
 
@@ -8,6 +10,9 @@ public class BaseEntity {
         this.id = id;
         this.description = description;
     }
+
+    public BaseEntity()
+    {}
 
     public int getId() {
         return id;

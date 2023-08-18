@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapNodeEntity extends BaseEntity implements Serializable {
+public class MapNodeEntity extends BaseEntity {
 
     private List<ActionEntity> actions;
 
@@ -12,6 +12,12 @@ public class MapNodeEntity extends BaseEntity implements Serializable {
 
     public MapNodeEntity(int id, String description) {
         super(id, description);
+        actions = new ArrayList<>();
+    }
+
+    public MapNodeEntity()
+    {
+        super();
         actions = new ArrayList<>();
     }
 

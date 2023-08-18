@@ -1,6 +1,8 @@
   package com.quest.dao.models;
 
-public class RequirementEntity extends ItemEntity{
+  import java.io.Serializable;
+
+  public class RequirementEntity extends ItemEntity {
 
     private boolean consumed;
 
@@ -15,5 +17,11 @@ public class RequirementEntity extends ItemEntity{
     public RequirementEntity(int id, String description, int value, boolean consumed) {
         super(id, description, value);
         this.consumed = consumed;
+    }
+
+    public RequirementEntity()
+    {
+        super(0, "", 0);
+        this.consumed = false;
     }
 }
