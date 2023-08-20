@@ -1,17 +1,17 @@
-package com.quest.dao.models;
+package com.quest.commons.models;
 
 import java.io.Serializable;
 
-public class BaseEntity implements Serializable {
+public class BaseModel implements Serializable {
     private int id;
     private String description;
 
-    public BaseEntity(int id, String description) {
+    public BaseModel(int id, String description) {
         this.id = id;
         this.description = description;
     }
 
-    public BaseEntity()
+    public BaseModel()
     {}
 
     public int getId() {

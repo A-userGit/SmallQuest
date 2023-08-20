@@ -1,6 +1,6 @@
 package com.quest.dao.interfaces;
 
-import com.quest.dao.models.MapNodeEntity;
+import com.quest.dao.entities.MapNodeEntity;
 
 import java.util.List;
 

@@ -1,11 +1,9 @@
 package com.quest.dao.repositries;
 
 import com.quest.dao.interfaces.MapDataDao;
-import com.quest.dao.models.MapNodeEntity;
+import com.quest.dao.entities.MapNodeEntity;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -54,17 +52,11 @@ public class MapDataRepository implements MapDataDao {
     @Override
     public boolean saveNode(MapNodeEntity entity) {
         String mapFilePath = propertiesAccessPoint.getProperty(PROP_KEY_MAP_PATH);
-        boolean fileExists = Files.exists(Path.of(mapFilePath));
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(mapFilePath,true))
-            {
-                protected void writeStreamHeader()throws IOException
-                {
-                    if(fileExists)
-                        reset();
-                }
-            };)
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(mapFilePath,true)))
         {
-            outputStream.writeObject(entity);
+            outputStream.write(entity.getId());
+            outputStream.writeChars(entity.getDescription());
+            outputStream.writeBoolean(entity.isFinale());
             outputStream.flush();
 
         } catch (FileNotFoundException e) {
