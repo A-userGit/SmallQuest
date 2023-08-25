@@ -1,4 +1,4 @@
-package com.quest.dao.entities;
+package com.quest.commons.models;
 
 import com.quest.commons.models.BaseModel;
 

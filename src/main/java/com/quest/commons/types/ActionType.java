@@ -1,4 +1,4 @@
-package com.quest.commons.models;
+package com.quest.commons.types;
 
 public enum ActionType {
     RANDOM_IF_ALLOWED,

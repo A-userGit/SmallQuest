@@ -1,6 +1,6 @@
 package com.quest.commons.models;
 
-import com.quest.dao.entities.RequirementModel;
+import com.quest.dao.entities.RequirementEntity;
 
 import java.util.ArrayList;
 
@@ -8,28 +8,27 @@ public class ActionModel extends BaseModel {
 
     public ActionModel(int id, String description, int nodeId) {
         super(id, description);
-        this.nodeId = nodeId;
         itemsRequirements = new ArrayList<>();
         statsRequirements = new ArrayList<>();
     }
 
-    private ArrayList<RequirementModel> itemsRequirements;
+    private ArrayList<RequirementEntity> itemsRequirements;
 
-    private  ArrayList<RequirementModel> statsRequirements;
+    private  ArrayList<RequirementEntity> statsRequirements;
 
-    public ArrayList<RequirementModel> getItemsRequirements() {
+    public ArrayList<RequirementEntity> getItemsRequirements() {
         return itemsRequirements;
     }
 
-    public void setItemsRequirements(ArrayList<RequirementModel> itemsRequirements) {
+    public void setItemsRequirements(ArrayList<RequirementEntity> itemsRequirements) {
         this.itemsRequirements = itemsRequirements;
     }
 
-    public ArrayList<RequirementModel> getStatsRequirements() {
+    public ArrayList<RequirementEntity> getStatsRequirements() {
         return statsRequirements;
     }
 
-    public void setStatsRequirements(ArrayList<RequirementModel> statsRequirements) {
+    public void setStatsRequirements(ArrayList<RequirementEntity> statsRequirements) {
         this.statsRequirements = statsRequirements;
     }
 }

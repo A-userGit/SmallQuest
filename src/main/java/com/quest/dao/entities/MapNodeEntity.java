@@ -7,23 +7,26 @@ import java.util.List;
 
 public class MapNodeEntity extends BaseModel {
 
-    private List<Integer> userActionIds;
-
     private List<Integer> itemsHere;
 
     private boolean isFinale;
+    private List<Integer> actionIds;
+
+    private List<Integer> environmentActions;
 
     public MapNodeEntity(int id, String description) {
         super(id, description);
-        userActionIds = new ArrayList<>();
+        itemsHere = new ArrayList<>();
+        actionIds = new ArrayList<>();
+        environmentActions = new ArrayList<>();
     }
 
     public List<Integer> getActions() {
-        return userActionIds;
+        return actionIds;
     }
 
     public void setActions(List<Integer> actions) {
-        this.userActionIds = actions;
+        this.actionIds = actions;
     }
 
     public boolean isFinale() {
@@ -32,5 +35,21 @@ public class MapNodeEntity extends BaseModel {
 
     public void setFinale(boolean finale) {
         isFinale = finale;
+    }
+
+    public List<Integer> getItemsHere() {
+        return itemsHere;
+    }
+
+    public void setItemsHere(List<Integer> itemsHere) {
+        this.itemsHere = itemsHere;
+    }
+
+    public void setEnvironmentActions(List<Integer> environmentActions) {
+        this.environmentActions = environmentActions;
+    }
+
+    public List<Integer> getEnvironmentActions() {
+        return environmentActions;
     }
 }
