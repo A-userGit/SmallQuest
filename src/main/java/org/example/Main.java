@@ -11,8 +11,5 @@ public class Main {
         System.out.println("Hello world!");
         MapDataRepository mapDataRepository = new MapDataRepository("datarepository.properties");
         MapNodeEntity entity = new MapNodeEntity(1,"Start");
-        entity.setFinale(false);
-
-
     }
 }

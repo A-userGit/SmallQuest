@@ -16,6 +16,7 @@ import com.quest.dao.repositries.MapDataRepository;
 import com.quest.dao.repositries.SubActionRepository;
 import com.quest.services.models.ActionModel;
 import com.quest.services.models.MapNode;
+import com.quest.services.models.RequirementModel;
 import com.quest.services.models.SubActionModel;
 
 import java.util.ArrayList;
@@ -75,13 +76,14 @@ public class LoaderService {
         return results;
     }
 
-    public List<ActionModel> loadActions(List<SubActionModel> subActions, List<NodeModel>)
-    {
+    public List<ActionModel> loadActions(List<SubActionModel> subActions, List<MapNode> nodes, List<RequirementModel> requirements) throws NoSuchItemException {
         List<ActionModel> actionModels = new ArrayList<>();
         List<ActionEntity> list = actionsDao.getList();
         for (ActionEntity entity:list) {
             ActionModel actionModel = EntitiesToModelsConverter.getActionModel(entity);
-            actionModel.set
+            List<MapNode> nodesList = EntitiesToModelsConverter.getListFromIds(entity.getNodesToGo(), nodes);
+            EntitiesToModelsConverter.getListFromIds(entity.getStatsRequirements(), );
+            actionModel.setNodesToGo(nodesList);
         }
     }
 }

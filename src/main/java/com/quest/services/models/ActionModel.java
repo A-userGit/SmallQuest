@@ -3,6 +3,7 @@ package com.quest.services.models;
 import com.quest.commons.models.BaseActionModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ActionModel extends BaseActionModel {
 
@@ -14,43 +15,43 @@ public class ActionModel extends BaseActionModel {
         subActions = new ArrayList<>();
     }
 
-    private ArrayList<RequirementModel> itemsRequirements;
+    private List<RequirementModel> itemsRequirements;
 
-    private  ArrayList<RequirementModel> statsRequirements;
+    private  List<RequirementModel> statsRequirements;
 
-    private ArrayList<MapNode> nodesToGo;
+    private List<MapNode> nodesToGo;
 
-    private ArrayList<SubActionModel> subActions;
+    private List<SubActionModel> subActions;
 
-    public ArrayList<RequirementModel> getItemsRequirements() {
+    public List<RequirementModel> getItemsRequirements() {
         return itemsRequirements;
     }
 
-    public void setItemsRequirements(ArrayList<RequirementModel> itemsRequirements) {
+    public void setItemsRequirements(List<RequirementModel> itemsRequirements) {
         this.itemsRequirements = itemsRequirements;
     }
 
-    public ArrayList<RequirementModel> getStatsRequirements() {
+    public List<RequirementModel> getStatsRequirements() {
         return statsRequirements;
     }
 
-    public void setStatsRequirements(ArrayList<RequirementModel> statsRequirements) {
+    public void setStatsRequirements(List<RequirementModel> statsRequirements) {
         this.statsRequirements = statsRequirements;
     }
 
-    public ArrayList<MapNode> getNodesToGo() {
+    public List<MapNode> getNodesToGo() {
         return nodesToGo;
     }
 
-    public void setNodesToGo(ArrayList<MapNode> nodesToGo) {
+    public void setNodesToGo(List<MapNode> nodesToGo) {
         this.nodesToGo = nodesToGo;
     }
 
-    public ArrayList<SubActionModel> getSubActions() {
+    public List<SubActionModel> getSubActions() {
         return subActions;
     }
 
-    public void setSubActions(ArrayList<SubActionModel> subActions) {
+    public void setSubActions(List<SubActionModel> subActions) {
         this.subActions = subActions;
     }
 }

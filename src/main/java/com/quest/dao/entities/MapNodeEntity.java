@@ -1,11 +1,12 @@
 package com.quest.dao.entities;
 
  import com.quest.commons.models.BaseModel;
+ import com.quest.commons.models.BaseNodeModel;
 
-import java.util.ArrayList;
+ import java.util.ArrayList;
 import java.util.List;
 
-public class MapNodeEntity extends BaseModel {
+public class MapNodeEntity extends BaseNodeModel {
 
     private List<AssignedItemEntity> itemsHere;
 
