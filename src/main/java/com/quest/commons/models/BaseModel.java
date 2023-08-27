@@ -1,8 +1,8 @@
 package com.quest.commons.models;
 
-import java.io.Serializable;
+import com.quest.commons.interfaces.IdSupported;
 
-public class BaseModel implements Serializable {
+public class BaseModel implements IdSupported {
     private int id;
     private String description;
 
@@ -10,9 +10,6 @@ public class BaseModel implements Serializable {
         this.id = id;
         this.description = description;
     }
-
-    public BaseModel()
-    {}
 
     public int getId() {
         return id;

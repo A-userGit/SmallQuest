@@ -39,14 +39,16 @@ public class ActionsRepository implements ActionsDao {
                 String description = inputStream.readLine();
                 int type = inputStream.readInt();
                 ActionEntity actionsEntity = new ActionEntity(id, description, types[type]);
-                actionsEntity.setSubActions(RepositoryUtility.readIdCollection(inputStream));
-                actionsEntity.setRequirements(RepositoryUtility.readIdCollection(inputStream));
-                actionsEntity.setNodesToGo(RepositoryUtility.readIdCollection(inputStream));
+                actionsEntity.setSubActions(RepositoryUtility.readCollection(inputStream, RepositoryUtility::readId));
+                actionsEntity.setRequirements(RepositoryUtility.readCollection(inputStream, RepositoryUtility::readId));
+                actionsEntity.setNodesToGo(RepositoryUtility.readCollection(inputStream, RepositoryUtility::readId));
                 actionsList.add(actionsEntity);
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return actionsList;
@@ -87,9 +89,14 @@ public class ActionsRepository implements ActionsDao {
         outputStream.write(entity.getId());
         outputStream.writeChars(entity.getDescription());
         outputStream.writeInt(entity.getActionType().ordinal());
-        RepositoryUtility.writeIdCollection(outputStream,entity.getSubActions());
-        RepositoryUtility.writeIdCollection(outputStream,entity.getRequirements());
-        RepositoryUtility.writeIdCollection(outputStream,entity.getRequirements());
+        try {
+            RepositoryUtility.writeCollection(outputStream,entity.getSubActions(), RepositoryUtility::writeId);
+            RepositoryUtility.writeCollection(outputStream,entity.getRequirements(), RepositoryUtility::writeId);
+            RepositoryUtility.writeCollection(outputStream,entity.getRequirements(), RepositoryUtility::writeId);
+        } catch (Exception e) {
+            throw (IOException) e;
+        }
+
     }
 
 }

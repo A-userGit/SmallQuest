@@ -7,9 +7,8 @@ import java.util.List;
 
 public class MapNodeEntity extends BaseModel {
 
-    private List<Integer> itemsHere;
+    private List<AssignedItemEntity> itemsHere;
 
-    private boolean isFinale;
     private List<Integer> actionIds;
 
     private List<Integer> environmentActions;
@@ -29,19 +28,11 @@ public class MapNodeEntity extends BaseModel {
         this.actionIds = actions;
     }
 
-    public boolean isFinale() {
-        return isFinale;
-    }
-
-    public void setFinale(boolean finale) {
-        isFinale = finale;
-    }
-
-    public List<Integer> getItemsHere() {
+    public List<AssignedItemEntity> getItemsHere() {
         return itemsHere;
     }
 
-    public void setItemsHere(List<Integer> itemsHere) {
+    public void setItemsHere(List<AssignedItemEntity> itemsHere) {
         this.itemsHere = itemsHere;
     }
 

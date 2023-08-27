@@ -1,12 +1,12 @@
 package com.quest.dao.entities;
 
+import com.quest.commons.models.BaseActionModel;
 import com.quest.commons.types.ActionType;
-import com.quest.commons.models.BaseModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionEntity extends BaseModel {
+public class ActionEntity extends BaseActionModel {
 
     private List<Integer> subActions;
 
@@ -14,11 +14,11 @@ public class ActionEntity extends BaseModel {
 
     List<Integer> nodesToGo;
 
-    private ActionType actionType;
+
 
     public ActionEntity(int id, String description, ActionType actionType) {
         super(id, description);
-        this.actionType = actionType;
+        this.setActionType(actionType);
         requirements = new ArrayList<>();
         subActions = new ArrayList<>();
         nodesToGo = new ArrayList<>();
@@ -48,11 +48,4 @@ public class ActionEntity extends BaseModel {
         this.nodesToGo = nodesToGo;
     }
 
-    public ActionType getActionType() {
-        return actionType;
-    }
-
-    public void setActionType(ActionType actionType) {
-        this.actionType = actionType;
-    }
 }

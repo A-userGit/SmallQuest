@@ -1,27 +1,63 @@
 package com.quest.dao.repositries;
 
+import com.quest.commons.interfaces.BiConsumerWException;
+import com.quest.commons.interfaces.FunctionWException;
+import com.quest.dao.entities.AssignedItemEntity;
+import com.quest.dao.entities.AssignedStatEntity;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.function.Function;
 
-public class RepositoryUtility {
-    public  static void writeIdCollection(ObjectOutputStream outputStream, List<Integer> idCollection) throws IOException {
-        outputStream.writeInt(idCollection.size());
-        for (int id:idCollection) {
-            outputStream.writeInt(id);
+public class  RepositoryUtility {
+
+    public  static <T> void writeCollection(ObjectOutputStream outputStream, List<T> collection,
+                                            BiConsumerWException<ObjectOutputStream,T> writer) throws Exception {
+        outputStream.writeInt(collection.size());
+        for (T entity :collection) {
+            writer.accept(outputStream, entity);
         }
     }
 
-    public  static List<Integer> readIdCollection(ObjectInputStream inputStream) throws IOException {
-        List<Integer> collection = new ArrayList<>();
+    public  static <T> List<T> readCollection(ObjectInputStream inputStream,
+                                            FunctionWException<ObjectInputStream,T> reader) throws Exception {
+        List<T> collection = new ArrayList<>();
         int itemsAmount = inputStream.readInt();
         while (itemsAmount>0)
         {
-            collection.add(inputStream.readInt());
+            collection.add(reader.apply(inputStream));
             itemsAmount--;
         }
         return collection;
+    }
+
+    public static void saveAssignedItem(ObjectOutputStream outputStream, AssignedItemEntity entity) throws IOException {
+        outputStream.writeInt(entity.getId());
+        outputStream.writeInt(entity.getItemId());
+        outputStream.writeInt(entity.getAmount());
+    }
+
+    public static AssignedStatEntity readStat(ObjectInputStream inputStream) throws IOException {
+        int id = inputStream.readInt();
+        int statId = inputStream.readInt();
+        int value = inputStream.readInt();
+        boolean critical = inputStream.readBoolean();
+        AssignedStatEntity statEntity = new AssignedStatEntity(id, statId, value , critical);
+        return statEntity;
+    }
+
+    public static AssignedItemEntity readAssignedItem(ObjectInputStream inputStream) throws IOException {
+        int id = inputStream.readInt();
+        int itemId = inputStream.readInt();
+        int amount = inputStream.readInt();
+        AssignedItemEntity entity = new AssignedItemEntity(id, itemId, amount);
+        return entity;
+    }
+
+    public static void writeId(ObjectOutputStream outputStream, int id) throws IOException {
+        outputStream.writeInt(id);
     }
 
     public static Properties loadProperties(String propsFilepath) throws IOException {
@@ -29,5 +65,16 @@ public class RepositoryUtility {
         Properties propertiesAccessPoint = new Properties();
         propertiesAccessPoint.load(new FileInputStream(rootPath+""+propsFilepath));
         return propertiesAccessPoint;
+    }
+
+    public static int readId(ObjectInputStream inputStream) throws IOException {
+        return inputStream.readInt();
+    }
+
+    public static void saveStat(ObjectOutputStream outputStream, AssignedStatEntity entity) throws IOException {
+        outputStream.writeInt(entity.getId());
+        outputStream.writeInt(entity.getItemId());
+        outputStream.writeInt(entity.getAmount());
+        outputStream.writeBoolean(entity.isCritical());
     }
 }

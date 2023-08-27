@@ -40,9 +40,10 @@ public class ReqirementsRepository implements RequirementsDao {
                 int id = inputStream.readInt();
                 String description = inputStream.readLine();
                 int value = inputStream.readInt();
+                int itemId = inputStream.readInt();
                 boolean blocker = inputStream.readBoolean();
                 RequirementEntity requirementEntity = new RequirementEntity(id, description, value, blocker);
-                requirementEntity.setVisibleIfZero(inputStream.readBoolean());
+                requirementEntity.setItemId(itemId);
                 requirementEntity.setItemType(ItemType.values()[inputStream.readInt()]);
                 requirementEntity.setRestrictionType(RestrictionType.values()[inputStream.readInt()]);
                 requirementEntity.setActionType(ItemActionType.values()[inputStream.readInt()]);
@@ -91,8 +92,8 @@ public class ReqirementsRepository implements RequirementsDao {
         outputStream.write(entity.getId());
         outputStream.writeChars(entity.getDescription());
         outputStream.writeInt(entity.getValue());
+        outputStream.writeInt(entity.getItemId());
         outputStream.writeBoolean(entity.isBlocker());
-        outputStream.writeBoolean(entity.isVisibleIfZero());
         outputStream.writeInt(entity.getItemType().ordinal());
         outputStream.writeInt(entity.getRestrictionType().ordinal());
         outputStream.writeInt(entity.getActionType().ordinal());

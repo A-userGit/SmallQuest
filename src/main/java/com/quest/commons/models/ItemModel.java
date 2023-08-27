@@ -3,21 +3,15 @@ package com.quest.commons.models;
 import com.quest.commons.models.BaseModel;
 
 public class ItemModel extends BaseModel {
-    private int value;
 
     private boolean visibleIfZero;
 
-    public ItemModel(int id, String description, int value) {
+    private boolean infinite;
+
+    public ItemModel(int id, String description, boolean visibleIfZero, boolean infinite) {
         super(id, description);
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
+        this.visibleIfZero = visibleIfZero;
+        this.infinite = infinite;
     }
 
     public boolean isVisibleIfZero() {
@@ -26,5 +20,13 @@ public class ItemModel extends BaseModel {
 
     public void setVisibleIfZero(boolean visibleIfZero) {
         this.visibleIfZero = visibleIfZero;
+    }
+
+    public boolean isInfinite() {
+        return infinite;
+    }
+
+    public void setInfinite(boolean infinite) {
+        this.infinite = infinite;
     }
 }

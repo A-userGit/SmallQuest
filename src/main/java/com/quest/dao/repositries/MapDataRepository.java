@@ -1,6 +1,7 @@
 package com.quest.dao.repositries;
 
 import com.quest.commons.models.ItemModel;
+import com.quest.dao.entities.AssignedItemEntity;
 import com.quest.dao.interfaces.MapDataDao;
 import com.quest.dao.entities.MapNodeEntity;
 
@@ -39,13 +40,15 @@ public class MapDataRepository implements MapDataDao {
                 String description = inputStream.readLine();
                 MapNodeEntity nodeEntity = new MapNodeEntity(id, description);
                 nodeEntity.setFinale(inputStream.readBoolean());
-                nodeEntity.setActions(RepositoryUtility.readIdCollection(inputStream));
-                nodeEntity.setItemsHere(RepositoryUtility.readIdCollection(inputStream));
-                nodeEntity.setEnvironmentActions(RepositoryUtility.readIdCollection(inputStream));
+                nodeEntity.setActions(RepositoryUtility.readCollection(inputStream, RepositoryUtility::readId));
+                nodeEntity.setItemsHere(RepositoryUtility.readCollection(inputStream,RepositoryUtility::readAssignedItem));
+                nodeEntity.setEnvironmentActions(RepositoryUtility.readCollection(inputStream, RepositoryUtility::readId));
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return mapList;
@@ -87,8 +90,16 @@ public class MapDataRepository implements MapDataDao {
         outputStream.write(entity.getId());
         outputStream.writeChars(entity.getDescription());
         outputStream.writeBoolean(entity.isFinale());
-        RepositoryUtility.writeIdCollection(outputStream,entity.getActions());
-        RepositoryUtility.writeIdCollection(outputStream,entity.getItemsHere());
-        RepositoryUtility.writeIdCollection(outputStream,entity.getEnvironmentActions());
+        try {
+            RepositoryUtility.writeCollection(outputStream,entity.getActions(),
+                    RepositoryUtility::writeId);
+            RepositoryUtility.writeCollection(outputStream, entity.getItemsHere(),
+                    RepositoryUtility::saveAssignedItem);
+            RepositoryUtility.writeCollection(outputStream,entity.getEnvironmentActions(),
+                    RepositoryUtility::writeId);
+        } catch (Exception e) {
+            throw (IOException) e;
+        }
+
     }
 }
