@@ -1,16 +1,19 @@
 package com.quest.dao.entities;
 
+import com.quest.commons.models.BaseModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserEntity {
+public class UserEntity extends BaseModel {
     private int nodeId;
 
     private List<AssignedItemEntity> inventoryItems;
 
-    private List<AssignedStatEntity> stats;
+    private List<AssignedLocalStatEntity> stats;
 
-    public UserEntity(int nodeId) {
+    public UserEntity(int id, String name, int nodeId) {
+        super(id, name);
         this.nodeId = nodeId;
         this.inventoryItems = new ArrayList<>();
         this.stats = new ArrayList<>();
@@ -32,11 +35,11 @@ public class UserEntity {
         this.inventoryItems = inventoryItems;
     }
 
-    public List<AssignedStatEntity> getStats() {
+    public List<AssignedLocalStatEntity> getStats() {
         return stats;
     }
 
-    public void setStats(List<AssignedStatEntity> stats) {
+    public void setStats(List<AssignedLocalStatEntity> stats) {
         this.stats = stats;
     }
 }

@@ -3,25 +3,24 @@ package com.quest.services.logic;
 import com.quest.commons.exceptions.NoSuchItemException;
 import com.quest.commons.models.ItemModel;
 import com.quest.commons.types.ItemDaoType;
+import com.quest.commons.types.ItemType;
 import com.quest.dao.entities.ActionEntity;
 import com.quest.dao.entities.MapNodeEntity;
+import com.quest.dao.entities.RequirementEntity;
 import com.quest.dao.entities.SubActionEntity;
-import com.quest.dao.interfaces.ActionsDao;
-import com.quest.dao.interfaces.ItemsDao;
-import com.quest.dao.interfaces.MapDataDao;
-import com.quest.dao.interfaces.SubActionsDao;
-import com.quest.dao.repositries.ActionsRepository;
-import com.quest.dao.repositries.ItemsRepository;
-import com.quest.dao.repositries.MapDataRepository;
-import com.quest.dao.repositries.SubActionRepository;
+import com.quest.dao.interfaces.*;
+import com.quest.dao.repositries.*;
 import com.quest.services.models.ActionModel;
 import com.quest.services.models.MapNode;
 import com.quest.services.models.RequirementModel;
 import com.quest.services.models.SubActionModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+
+import static com.quest.services.logic.EntitiesToModelsConverter.getListFromIds;
 
 public class LoaderService {
 
@@ -30,25 +29,35 @@ public class LoaderService {
     private SubActionsDao subActionsDao;
     private ActionsDao actionsDao;
 
+    private RequirementsDao requirementsDao;
+
     public LoaderService(String dataPath)
     {
         itemsDao = new ItemsRepository(dataPath);
-        mapDataDao = new MapDataRepository(dataPath);
         subActionsDao = new SubActionRepository(dataPath);
         actionsDao = new ActionsRepository(dataPath);
+        requirementsDao = new ReqirementsRepository(dataPath);
     }
-    public List<ItemModel> loadItems()
+    public HashMap<Integer,ItemModel> loadItems()
     {
         itemsDao.setItemDaoType(ItemDaoType.ITEM);
+        HashMap<Integer,ItemModel> itemMap = new HashMap<>();
         List<ItemModel> list = itemsDao.getList();
-        return list;
+        for (ItemModel model:list) {
+            itemMap.put(model.getId(),model);
+        }
+        return itemMap;
     }
 
-    public List<ItemModel> loadStats()
+    public HashMap<Integer,ItemModel> loadStats()
     {
         itemsDao.setItemDaoType(ItemDaoType.STAT);
+        HashMap<Integer,ItemModel> statsMap = new HashMap<>();
         List<ItemModel> list = itemsDao.getList();
-        return list;
+        for (ItemModel model:list) {
+            statsMap.put(model.getId(),model);
+        }
+        return statsMap;
     }
 
     public List<MapNode> loadMapNodes()
@@ -56,34 +65,64 @@ public class LoaderService {
         List<MapNodeEntity> list = mapDataDao.getList();
         for (MapNodeEntity entity: list) {
             MapNode nodeModel = EntitiesToModelsConverter.getNodeModel(entity);
-            entity.
+            entity
         }
     }
 
-    public List<SubActionModel> loadSubAction(List<ItemModel> items) throws NoSuchItemException {
+    public List<SubActionModel> loadSubAction(HashMap<Integer,ItemModel> items) throws NoSuchItemException {
         List<SubActionEntity> list = subActionsDao.getList();
         List<SubActionModel> results = new ArrayList<>();
         for (SubActionEntity entity: list) {
             SubActionModel subActionModel = EntitiesToModelsConverter.getSubActionModel(entity);
-            Optional<ItemModel> first = items.stream().filter(s -> s.getId() == entity.getItemId()).findFirst();
-            if(first.isEmpty()) {
+            ItemModel itemModel = items.get(entity.getItemId());
+            if(itemModel == null) {
                 String name = items.getClass().getComponentType().getCanonicalName();
                 throw new NoSuchItemException(entity.getItemId(), name);
             }
-            subActionModel.setItem(first.get());
+            subActionModel.setItem(itemModel);
             results.add(subActionModel);
         }
         return results;
     }
 
-    public List<ActionModel> loadActions(List<SubActionModel> subActions, List<MapNode> nodes, List<RequirementModel> requirements) throws NoSuchItemException {
+    public List<ActionModel> loadActions(List<SubActionModel> subActionsList, List<MapNode> nodes, List<RequirementModel> requirements) throws NoSuchItemException {
         List<ActionModel> actionModels = new ArrayList<>();
         List<ActionEntity> list = actionsDao.getList();
         for (ActionEntity entity:list) {
             ActionModel actionModel = EntitiesToModelsConverter.getActionModel(entity);
-            List<MapNode> nodesList = EntitiesToModelsConverter.getListFromIds(entity.getNodesToGo(), nodes);
-            EntitiesToModelsConverter.getListFromIds(entity.getStatsRequirements(), );
+            List<SubActionModel> subActions = EntitiesToModelsConverter.getListFromIds(entity.getSubActions(),subActionsList);
+            List<MapNode> nodesList = getListFromIds(entity.getNodesToGo(), nodes);
+            List<RequirementModel> requirementList = getListFromIds(entity.getRequirements(), requirements);
             actionModel.setNodesToGo(nodesList);
+            actionModel.setSubActions(subActions);
+            List<RequirementModel> statsReq = new ArrayList<>();
+            List<RequirementModel> itemsReq = new ArrayList<>();
+            for (RequirementModel requirement:requirementList) {
+                if(requirement.getItemType() == ItemType.STAT)
+                    statsReq.add(requirement);
+                else
+                    itemsReq.add(requirement);
+            }
+            actionModel.setItemsRequirements(itemsReq);
+            actionModel.setStatsRequirements(statsReq);
+            actionModels.add(actionModel);
         }
+        return actionModels;
+    }
+
+    public List<RequirementModel> loadRequirements(HashMap<Integer,ItemModel> items) throws NoSuchItemException {
+        List<RequirementModel> actionModels = new ArrayList<>();
+        List<RequirementEntity> list = requirementsDao.getList();
+        for (RequirementEntity entity:list) {
+            RequirementModel requirementModel = EntitiesToModelsConverter.getRequirementModel(entity);
+            ItemModel itemModel = items.get(entity.getItemId());
+            if(itemModel == null) {
+                String name = items.getClass().getComponentType().getCanonicalName();
+                throw new NoSuchItemException(entity.getItemId(), name);
+            }
+            requirementModel.setItem(itemModel);
+            actionModels.add(requirementModel);
+        }
+        return actionModels;
     }
 }

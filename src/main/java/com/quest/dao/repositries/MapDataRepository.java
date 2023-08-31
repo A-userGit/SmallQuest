@@ -17,11 +17,18 @@ public class MapDataRepository implements MapDataDao {
 
     private Properties propertiesAccessPoint;
 
+    private String mapFilePath;
 
-    public MapDataRepository(String propsFilepath)
+
+    public MapDataRepository(String propsFilepath, boolean otherSource, String filename)
     {
         try {
-            propertiesAccessPoint = RepositoryUtility.loadProperties(propsFilepath);
+            if(otherSource)
+                mapFilePath = filename;
+            else {
+                propertiesAccessPoint = RepositoryUtility.loadProperties(propsFilepath);
+                mapFilePath = propertiesAccessPoint.getProperty(PROP_KEY_MAP_PATH);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -30,7 +37,6 @@ public class MapDataRepository implements MapDataDao {
     @Override
     public List<MapNodeEntity> getList() {
         ArrayList<MapNodeEntity> mapList = new ArrayList<>();
-        String mapFilePath = propertiesAccessPoint.getProperty(PROP_KEY_MAP_PATH);
         try(FileInputStream fileInputStream = new FileInputStream(mapFilePath);
             ObjectInputStream inputStream = new ObjectInputStream(fileInputStream))
         {
@@ -56,7 +62,6 @@ public class MapDataRepository implements MapDataDao {
 
     @Override
     public boolean saveEntity(MapNodeEntity entity) {
-        String mapFilePath = propertiesAccessPoint.getProperty(PROP_KEY_MAP_PATH);
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(mapFilePath,true)))
         {
             writeEntity(outputStream, entity);
@@ -71,7 +76,6 @@ public class MapDataRepository implements MapDataDao {
 
     @Override
     public boolean saveAll(List<MapNodeEntity> list) {
-        String mapFilePath = propertiesAccessPoint.getProperty(PROP_KEY_MAP_PATH);
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(mapFilePath)))
         {
             for (MapNodeEntity entity:list) {

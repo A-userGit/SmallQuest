@@ -1,9 +1,10 @@
 package com.quest.commons.models;
 
+import com.quest.commons.interfaces.IdSupported;
 import com.quest.commons.types.ItemActionType;
 import com.quest.commons.types.ItemType;
 
-public class BaseSubActionModel{
+public class BaseSubActionModel implements IdSupported {
 
     private int id;
 

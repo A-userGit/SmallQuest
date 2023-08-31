@@ -1,12 +1,14 @@
 package com.quest.services.models;
 
+import com.quest.commons.interfaces.ItemSupported;
 import com.quest.commons.models.ItemModel;
 
-public class LocalItem extends ItemModel {
+public class LocalItem implements ItemSupported {
     private int value;
 
-    public LocalItem(int id, String description, boolean visibleIfZero, boolean infinite, int value) {
-        super(id, description, visibleIfZero, infinite);
+    private ItemModel item;
+
+    public LocalItem(int value) {
         this.value = value;
     }
 
@@ -16,5 +18,13 @@ public class LocalItem extends ItemModel {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public ItemModel getItem() {
+        return item;
+    }
+
+    public void setItem(ItemModel item) {
+        this.item = item;
     }
 }

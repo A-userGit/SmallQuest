@@ -1,8 +1,8 @@
 package com.quest.dao.entities;
 
-import com.quest.commons.interfaces.IdSupported;
+import com.quest.commons.interfaces.ItemIdSupported;
 
-public class AssignedItemEntity implements IdSupported {
+public class AssignedItemEntity implements ItemIdSupported {
     private int id;
 
     private int itemId;

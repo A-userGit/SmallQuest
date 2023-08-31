@@ -3,6 +3,8 @@ package com.quest.services.models;
 import com.quest.commons.models.BaseNodeModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class MapNode extends BaseNodeModel {
@@ -10,13 +12,13 @@ public class MapNode extends BaseNodeModel {
     public MapNode(int id, String description) {
         super(id, description);
         actions = new ArrayList<>();
-        items = new ArrayList<>();
+        items = new HashMap<>();
         environmentActions = new ArrayList<>();
     }
 
     private List<ActionModel> actions;
 
-    private List<LocalItem> items;
+    private HashMap<Integer,LocalItem> items;
 
     private List<ActionModel> environmentActions;
 
@@ -28,11 +30,11 @@ public class MapNode extends BaseNodeModel {
         this.actions = actions;
     }
 
-    public List<LocalItem> getItems() {
+    public HashMap<Integer,LocalItem> getItems() {
         return items;
     }
 
-    public void setItems(List<LocalItem> items) {
+    public void setItems(HashMap<Integer,LocalItem> items) {
         this.items = items;
     }
 

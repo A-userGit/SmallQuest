@@ -8,13 +8,17 @@ import java.io.*;
 public class UserRepository implements UserDao {
 
     @Override
-    public UserEntity loadSave(String actionsFilePath) {
-        UserEntity entity = new UserEntity(0);
-        try(FileInputStream fileInputStream = new FileInputStream(actionsFilePath);
+    public UserEntity loadSave(String filePath) {
+        UserEntity entity = new UserEntity(0,"",0);
+        try(FileInputStream fileInputStream = new FileInputStream(filePath);
             ObjectInputStream inputStream = new ObjectInputStream(fileInputStream))
         {
             int id = inputStream.readInt();
-            entity.setNodeId(id);
+            String name = inputStream.readLine();
+            int nodeId = inputStream.readInt();
+            entity.setId(id);
+            entity.setDescription(name);
+            entity.setNodeId(nodeId);
             entity.setStats(RepositoryUtility.readCollection(inputStream, RepositoryUtility::readStat));
             entity.setInventoryItems(RepositoryUtility.readCollection(inputStream, RepositoryUtility::readAssignedItem));
         } catch (FileNotFoundException e) {
@@ -31,6 +35,8 @@ public class UserRepository implements UserDao {
     public boolean saveEntity(UserEntity entity, String mapFilePath) {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(mapFilePath)))
         {
+            outputStream.writeInt(entity.getId());
+            outputStream.writeChars(entity.getDescription());
             outputStream.writeInt(entity.getNodeId());
             RepositoryUtility.writeCollection(outputStream, entity.getStats(), RepositoryUtility::saveStat);
             RepositoryUtility.writeCollection(outputStream, entity.getInventoryItems(), RepositoryUtility::saveAssignedItem);
