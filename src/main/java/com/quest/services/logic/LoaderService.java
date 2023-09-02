@@ -62,11 +62,13 @@ public class LoaderService {
 
     public List<MapNode> loadMapNodes()
     {
+        List<MapNode> listResult = new ArrayList<>();
         List<MapNodeEntity> list = mapDataDao.getList();
         for (MapNodeEntity entity: list) {
             MapNode nodeModel = EntitiesToModelsConverter.getNodeModel(entity);
-            entity
+            listResult.add(nodeModel);
         }
+        return listResult;
     }
 
     public List<SubActionModel> loadSubAction(HashMap<Integer,ItemModel> items) throws NoSuchItemException {

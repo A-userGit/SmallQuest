@@ -10,10 +10,26 @@ import com.quest.dao.interfaces.MapDataDao;
 import com.quest.services.models.ActionModel;
 import com.quest.services.models.MapNode;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class MapService {
 
-    public void loadMap()
-    {}
+    private HashMap<Integer, ItemModel> items;
+
+    private HashMap<Integer, ItemModel> statsMap;
+
+    private List<MapNode> nodes;
+    private String dataPath;
+    public MapService(String dataPath)
+    {
+        this.dataPath = dataPath;
+    }
+    public MapNode loadMap()
+    {
+        LoaderService service = new LoaderService(dataPath);
+        nodes = service.loadMapNodes();
+        items = service.loadItems();
+        statsMap  = service.loadStats();
+    }
 }

@@ -2,7 +2,7 @@ package com.quest.commons.models;
 
 import com.quest.commons.interfaces.IdSupported;
 
-public class BaseLocalStatModel {
+public class BaseLocalStatModel implements IdSupported{
 
     private int id;
     private int amount;

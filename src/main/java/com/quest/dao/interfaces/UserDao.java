@@ -6,4 +6,6 @@ public interface UserDao {
     UserEntity loadSave(String actionsFilePath);
 
     boolean saveEntity(UserEntity entity, String mapFilePath);
+
+    public UserEntity getDefaultUser();
 }

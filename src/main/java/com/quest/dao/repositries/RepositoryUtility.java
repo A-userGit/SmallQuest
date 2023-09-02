@@ -3,7 +3,7 @@ package com.quest.dao.repositries;
 import com.quest.commons.interfaces.BiConsumerWException;
 import com.quest.commons.interfaces.FunctionWException;
 import com.quest.dao.entities.AssignedItemEntity;
-import com.quest.dao.entities.AssignedLocalStatEntity;
+import com.quest.dao.entities.AssignedStatEntity;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -38,12 +38,12 @@ public class  RepositoryUtility {
         outputStream.writeInt(entity.getAmount());
     }
 
-    public static AssignedLocalStatEntity readStat(ObjectInputStream inputStream) throws IOException {
+    public static AssignedStatEntity readStat(ObjectInputStream inputStream) throws IOException {
         int id = inputStream.readInt();
         int statId = inputStream.readInt();
         int value = inputStream.readInt();
         boolean critical = inputStream.readBoolean();
-        AssignedLocalStatEntity statEntity = new AssignedLocalStatEntity(id, statId, value , critical);
+        AssignedStatEntity statEntity = new AssignedStatEntity(id, statId, value , critical);
         return statEntity;
     }
 
@@ -70,7 +70,7 @@ public class  RepositoryUtility {
         return inputStream.readInt();
     }
 
-    public static void saveStat(ObjectOutputStream outputStream, AssignedLocalStatEntity entity) throws IOException {
+    public static void saveStat(ObjectOutputStream outputStream, AssignedStatEntity entity) throws IOException {
         outputStream.writeInt(entity.getId());
         outputStream.writeInt(entity.getItemId());
         outputStream.writeInt(entity.getAmount());

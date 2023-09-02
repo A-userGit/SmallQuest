@@ -6,6 +6,8 @@ import com.quest.commons.models.ItemModel;
 public class LocalItem implements ItemSupported {
     private int value;
 
+    private int id;
+
     private ItemModel item;
 
     public LocalItem(int value) {
@@ -26,5 +28,13 @@ public class LocalItem implements ItemSupported {
 
     public void setItem(ItemModel item) {
         this.item = item;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -10,7 +10,7 @@ public class UserEntity extends BaseModel {
 
     private List<AssignedItemEntity> inventoryItems;
 
-    private List<AssignedLocalStatEntity> stats;
+    private List<AssignedStatEntity> stats;
 
     public UserEntity(int id, String name, int nodeId) {
         super(id, name);
@@ -35,11 +35,11 @@ public class UserEntity extends BaseModel {
         this.inventoryItems = inventoryItems;
     }
 
-    public List<AssignedLocalStatEntity> getStats() {
+    public List<AssignedStatEntity> getStats() {
         return stats;
     }
 
-    public void setStats(List<AssignedLocalStatEntity> stats) {
+    public void setStats(List<AssignedStatEntity> stats) {
         this.stats = stats;
     }
 }

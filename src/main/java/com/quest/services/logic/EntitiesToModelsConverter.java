@@ -55,7 +55,7 @@ public class EntitiesToModelsConverter {
         return localItem;
     }
 
-    public static LocalStat getLocalStat(AssignedLocalStatEntity entity)
+    public static LocalStat getLocalStat(AssignedStatEntity entity)
     {
         LocalStat localStat = new LocalStat(entity.getId(),entity.getAmount(),entity.isCritical());
         return localStat;
