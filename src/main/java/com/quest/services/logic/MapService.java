@@ -1,17 +1,20 @@
 package com.quest.services.logic;
 
+import com.quest.commons.exceptions.NoSuchItemException;
 import com.quest.commons.models.ItemModel;
 import com.quest.commons.types.ItemDaoType;
 import com.quest.dao.entities.ActionEntity;
+import com.quest.dao.entities.AssignedItemEntity;
 import com.quest.dao.entities.MapNodeEntity;
 import com.quest.dao.interfaces.ActionsDao;
 import com.quest.dao.interfaces.ItemsDao;
 import com.quest.dao.interfaces.MapDataDao;
-import com.quest.services.models.ActionModel;
-import com.quest.services.models.MapNode;
+import com.quest.services.models.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class MapService {
 
@@ -25,11 +28,36 @@ public class MapService {
     {
         this.dataPath = dataPath;
     }
-    public MapNode loadMap()
-    {
+    public MapNode loadMap() throws NoSuchItemException {
         LoaderService service = new LoaderService(dataPath);
         nodes = service.loadMapNodes();
         items = service.loadItems();
         statsMap  = service.loadStats();
+        List<SubActionModel> subActions = service.loadSubAction(items);
+        List<RequirementModel> requirements = service.loadRequirements(items);
+        service.loadActions(subActions,nodes, requirements);
+        return nodes.get(0);
     }
+
+    public void restockMapItems(List<MapNodeEntity> dataSource) throws NoSuchItemException {
+        for (MapNodeEntity nodeData:dataSource) {
+            Optional<MapNode> first = nodes.stream().filter(s -> s.getId() == nodeData.getId()).findFirst();
+            if(first.isEmpty()) {
+                String name = nodes.getClass().getComponentType().getCanonicalName();
+                throw new NoSuchItemException(nodeData.getId(), name);
+            }
+            HashMap<Integer, LocalItem> mapItems = first.get().getItems();
+            for (AssignedItemEntity itemData :nodeData.getItemsHere())
+            {
+                LocalItem localItem = mapItems.get(itemData.getItemId());
+                if(localItem == null) {
+                    String name = nodes.getClass().getComponentType().getCanonicalName();
+                    throw new NoSuchItemException(nodeData.getId(), name);
+                }
+                localItem.setValue(itemData.getAmount());
+            }
+        }
+    }
+
+
 }
