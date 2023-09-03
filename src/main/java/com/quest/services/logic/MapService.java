@@ -9,11 +9,10 @@ import com.quest.dao.entities.MapNodeEntity;
 import com.quest.dao.interfaces.ActionsDao;
 import com.quest.dao.interfaces.ItemsDao;
 import com.quest.dao.interfaces.MapDataDao;
+import com.quest.dao.repositries.MapDataRepository;
 import com.quest.services.models.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class MapService {
@@ -23,10 +22,13 @@ public class MapService {
     private HashMap<Integer, ItemModel> statsMap;
 
     private List<MapNode> nodes;
+
+    private  MapDataDao mapDataDao;
     private String dataPath;
     public MapService(String dataPath)
     {
         this.dataPath = dataPath;
+        this.mapDataDao = new MapDataRepository(dataPath, false, "");
     }
     public MapNode loadMap() throws NoSuchItemException {
         LoaderService service = new LoaderService(dataPath);
@@ -59,5 +61,13 @@ public class MapService {
         }
     }
 
+    public void saveMap()
+    {
+        ArrayList<MapNodeEntity> mapNodeEntities = new ArrayList<>();
+        for (MapNode node: nodes) {
+            mapNodeEntities.add(ModelToEntityConverter.getNodeEntity(node));
+        }
+        mapDataDao.saveAll(mapNodeEntities);
+    }
 
 }
