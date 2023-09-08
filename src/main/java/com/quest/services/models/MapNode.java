@@ -20,7 +20,7 @@ public class MapNode extends BaseNodeModel {
 
     private HashMap<Integer,LocalItem> items;
 
-    private List<ActionModel> environmentActions;
+    private List<SubActionModel> environmentActions;
 
     public List<ActionModel> getActions() {
         return actions;
@@ -38,11 +38,11 @@ public class MapNode extends BaseNodeModel {
         this.items = items;
     }
 
-    public List<ActionModel> getEnvironmentActions() {
+    public List<SubActionModel> getEnvironmentActions() {
         return environmentActions;
     }
 
-    public void setEnvironmentActions(List<ActionModel> environmentActions) {
+    public void setEnvironmentActions(List<SubActionModel> environmentActions) {
         this.environmentActions = environmentActions;
     }
 }

@@ -60,12 +60,15 @@ public class LoaderService {
         return statsMap;
     }
 
-    public List<MapNode> loadMapNodes()
-    {
+    public List<MapNode> loadMapNodes(List<SubActionModel> subActions, List<ActionModel> actions) throws NoSuchItemException {
         List<MapNode> listResult = new ArrayList<>();
         List<MapNodeEntity> list = mapDataDao.getList();
         for (MapNodeEntity entity: list) {
             MapNode nodeModel = EntitiesToModelsConverter.getNodeModel(entity);
+            List<SubActionModel> nodeSubActions = EntitiesToModelsConverter.getListFromIds(entity.getEnvironmentActions(), subActions);
+            List<ActionModel> nodeActions = EntitiesToModelsConverter.getListFromIds(entity.getActions(), actions);
+            nodeModel.setActions(nodeActions);
+            nodeModel.setEnvironmentActions(nodeSubActions);
             listResult.add(nodeModel);
         }
         return listResult;
@@ -87,15 +90,14 @@ public class LoaderService {
         return results;
     }
 
-    public List<ActionModel> loadActions(List<SubActionModel> subActionsList, List<MapNode> nodes, List<RequirementModel> requirements) throws NoSuchItemException {
+    public List<ActionModel> loadActions(List<SubActionModel> subActionsList, List<RequirementModel> requirements) throws NoSuchItemException {
         List<ActionModel> actionModels = new ArrayList<>();
         List<ActionEntity> list = actionsDao.getList();
         for (ActionEntity entity:list) {
+
             ActionModel actionModel = EntitiesToModelsConverter.getActionModel(entity);
             List<SubActionModel> subActions = EntitiesToModelsConverter.getListFromIds(entity.getSubActions(),subActionsList);
-            List<MapNode> nodesList = getListFromIds(entity.getNodesToGo(), nodes);
             List<RequirementModel> requirementList = getListFromIds(entity.getRequirements(), requirements);
-            actionModel.setNodesToGo(nodesList);
             actionModel.setSubActions(subActions);
             List<RequirementModel> statsReq = new ArrayList<>();
             List<RequirementModel> itemsReq = new ArrayList<>();
@@ -112,12 +114,16 @@ public class LoaderService {
         return actionModels;
     }
 
-    public List<RequirementModel> loadRequirements(HashMap<Integer,ItemModel> items) throws NoSuchItemException {
+    public List<RequirementModel> loadRequirements(HashMap<Integer,ItemModel> items, HashMap<Integer, ItemModel> stats) throws NoSuchItemException {
         List<RequirementModel> actionModels = new ArrayList<>();
         List<RequirementEntity> list = requirementsDao.getList();
         for (RequirementEntity entity:list) {
             RequirementModel requirementModel = EntitiesToModelsConverter.getRequirementModel(entity);
-            ItemModel itemModel = items.get(entity.getItemId());
+            ItemModel itemModel = null;
+            if(requirementModel.getItemType() == ItemType.ITEM)
+                 itemModel = items.get(entity.getItemId());
+            else
+                itemModel = stats.get(entity.getItemId());
             if(itemModel == null) {
                 String name = items.getClass().getComponentType().getCanonicalName();
                 throw new NoSuchItemException(entity.getItemId(), name);

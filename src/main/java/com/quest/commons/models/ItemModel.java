@@ -8,6 +8,7 @@ public class ItemModel extends BaseModel {
 
     private boolean infinite;
 
+
     public ItemModel(int id, String description, boolean visibleIfZero, boolean infinite) {
         super(id, description);
         this.visibleIfZero = visibleIfZero;

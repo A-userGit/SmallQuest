@@ -19,12 +19,29 @@ public class MapService {
 
     private HashMap<Integer, ItemModel> items;
 
-    private HashMap<Integer, ItemModel> statsMap;
+    private HashMap<Integer, ItemModel> stats;
 
     private List<MapNode> nodes;
 
     private  MapDataDao mapDataDao;
     private String dataPath;
+
+    public HashMap<Integer, ItemModel> getItems() {
+        return items;
+    }
+
+    public void setItems(HashMap<Integer, ItemModel> items) {
+        this.items = items;
+    }
+
+    public List<MapNode> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(List<MapNode> nodes) {
+        this.nodes = nodes;
+    }
+
     public MapService(String dataPath)
     {
         this.dataPath = dataPath;
@@ -32,12 +49,12 @@ public class MapService {
     }
     public MapNode loadMap() throws NoSuchItemException {
         LoaderService service = new LoaderService(dataPath);
-        nodes = service.loadMapNodes();
         items = service.loadItems();
-        statsMap  = service.loadStats();
+        stats = service.loadStats();
         List<SubActionModel> subActions = service.loadSubAction(items);
-        List<RequirementModel> requirements = service.loadRequirements(items);
-        service.loadActions(subActions,nodes, requirements);
+        List<RequirementModel> requirements = service.loadRequirements(items, stats);
+        List<ActionModel> actions = service.loadActions(subActions, requirements);
+        nodes = service.loadMapNodes(subActions, actions);
         return nodes.get(0);
     }
 
@@ -70,4 +87,7 @@ public class MapService {
         mapDataDao.saveAll(mapNodeEntities);
     }
 
+    public HashMap<Integer, ItemModel> getStats() {
+        return stats;
+    }
 }

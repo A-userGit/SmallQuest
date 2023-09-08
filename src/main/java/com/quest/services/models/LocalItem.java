@@ -3,7 +3,7 @@ package com.quest.services.models;
 import com.quest.commons.interfaces.ItemSupported;
 import com.quest.commons.models.ItemModel;
 
-public class LocalItem implements ItemSupported {
+public class LocalItem implements ItemSupported{
     private int value;
 
     private int id;
