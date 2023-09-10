@@ -8,6 +8,8 @@ public class BaseLocalStatModel implements IdSupported{
     private int amount;
     private boolean critical;
 
+    private int maxStat;
+
     public boolean isCritical() {
         return critical;
     }
@@ -30,6 +32,14 @@ public class BaseLocalStatModel implements IdSupported{
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public int getMaxStat() {
+        return maxStat;
+    }
+
+    public void setMaxStat(int maxStat) {
+        this.maxStat = maxStat;
     }
 
     public BaseLocalStatModel(int id, int amount, boolean critical) {

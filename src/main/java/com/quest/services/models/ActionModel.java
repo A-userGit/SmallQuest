@@ -13,6 +13,7 @@ public class ActionModel extends BaseActionModel {
         statsRequirements = new ArrayList<>();
         nodesToGo = new ArrayList<>();
         subActions = new ArrayList<>();
+        subsequentActions = new ArrayList<>();
     }
 
     private List<RequirementModel> itemsRequirements;
@@ -22,6 +23,8 @@ public class ActionModel extends BaseActionModel {
     private List<MapNode> nodesToGo;
 
     private List<SubActionModel> subActions;
+
+    private List<ActionModel> subsequentActions;
 
     public List<RequirementModel> getItemsRequirements() {
         return itemsRequirements;
@@ -53,5 +56,13 @@ public class ActionModel extends BaseActionModel {
 
     public void setSubActions(List<SubActionModel> subActions) {
         this.subActions = subActions;
+    }
+
+    public List<ActionModel> getSubsequentActions() {
+        return subsequentActions;
+    }
+
+    public void setSubsequentActions(List<ActionModel> subsequentActions) {
+        this.subsequentActions = subsequentActions;
     }
 }

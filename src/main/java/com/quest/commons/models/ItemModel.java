@@ -30,4 +30,5 @@ public class ItemModel extends BaseModel {
     public void setInfinite(boolean infinite) {
         this.infinite = infinite;
     }
+
 }

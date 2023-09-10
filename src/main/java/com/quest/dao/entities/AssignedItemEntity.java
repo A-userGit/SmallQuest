@@ -9,6 +9,8 @@ public class AssignedItemEntity implements ItemIdSupported {
 
     private int amount;
 
+    private int maxAmount;
+
     public AssignedItemEntity(int id, int itemId, int amount) {
         this.id = id;
         this.itemId = itemId;
@@ -37,5 +39,13 @@ public class AssignedItemEntity implements ItemIdSupported {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public int getMaxAmount() {
+        return maxAmount;
+    }
+
+    public void setMaxAmount(int maxAmount) {
+        this.maxAmount = maxAmount;
     }
 }

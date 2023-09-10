@@ -80,11 +80,16 @@ public class LoaderService {
         for (SubActionEntity entity: list) {
             SubActionModel subActionModel = EntitiesToModelsConverter.getSubActionModel(entity);
             ItemModel itemModel = items.get(entity.getItemId());
+            ItemModel genItem = null;
+            if(entity.getGenerateItemId()>0) {
+                genItem = items.get(entity.getGenerateItemId());
+            }
             if(itemModel == null) {
                 String name = items.getClass().getComponentType().getCanonicalName();
                 throw new NoSuchItemException(entity.getItemId(), name);
             }
             subActionModel.setItem(itemModel);
+            subActionModel.setToGenerateItem(genItem);
             results.add(subActionModel);
         }
         return results;
@@ -110,6 +115,11 @@ public class LoaderService {
             actionModel.setItemsRequirements(itemsReq);
             actionModel.setStatsRequirements(statsReq);
             actionModels.add(actionModel);
+        }
+        for (ActionEntity entity:list) {
+            ActionModel action = actionModels.stream().filter(s -> s.getId() == entity.getId()).findFirst().get();
+            List<ActionModel> listFromIds = getListFromIds(entity.getActionsToExecute(), actionModels);
+            action.setSubsequentActions(listFromIds);
         }
         return actionModels;
     }

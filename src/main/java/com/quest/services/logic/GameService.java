@@ -6,6 +6,7 @@ import com.quest.commons.models.ItemModel;
 import com.quest.commons.types.ItemType;
 import com.quest.services.comparators.ItemQuantityComparator;
 import com.quest.services.comparators.StatComparator;
+import com.quest.services.interfaces.IValidated;
 import com.quest.services.interfaces.RequirementComparator;
 import com.quest.services.models.*;
 
@@ -19,6 +20,8 @@ public class GameService {
     private String dataPath;
 
     private MapNode currentPosition;
+
+    private List<ActionModel> currentActions;
 
     private HashMap<Integer, ItemModel> items;
 
@@ -57,8 +60,9 @@ public class GameService {
         currentPosition = nodes.get(0);
     }
 
-    private List<RequirementModel> checkAllowedAction(ActionModel action)
+    private List<RequirementModel> checkAllowedAction(IValidated actionToValidate)
     {
+        ActionModel action = (ActionModel) actionToValidate;
         List<RequirementModel> rejectedRequirements = new ArrayList<>();
         boolean valid = true;
         List<RequirementModel> statsRequirements = action.getStatsRequirements();
@@ -84,6 +88,13 @@ public class GameService {
         return rejectedRequirements;
     }
 
+    public void processSubActions(List<SubActionModel> subActions)
+    {
+        for (SubActionModel subAction: subActions) {
+            if
+        }
+    }
+
     public boolean makeTurn(int actionId)
     {
         List<ActionModel> actions = currentPosition.getActions();
@@ -98,9 +109,7 @@ public class GameService {
         List<SubActionModel> environmentActions = currentPosition.getEnvironmentActions();
         List<SubActionModel> allSubActions = new ArrayList<>(subActions);
         allSubActions.addAll(environmentActions);
-        for (SubActionModel subAction:allSubActions) {
-            subAction.getItemType() ==
-        }
+
     }
 
 }

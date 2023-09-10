@@ -44,6 +44,7 @@ public class SubActionRepository implements SubActionsDao {
                 SubActionEntity subActionsEntity = new SubActionEntity(id, random, itemId, startVal, topVal);
                 subActionsEntity.setItemType(ItemType.values()[inputStream.readInt()]);
                 subActionsEntity.setSubActionType(ItemActionType.values()[inputStream.readInt()]);
+                subActionsEntity.setGenerateItemId(inputStream.readInt());
                 actionsList.add(subActionsEntity);
             }
         } catch (FileNotFoundException e) {
@@ -93,5 +94,6 @@ public class SubActionRepository implements SubActionsDao {
         outputStream.writeInt(entity.getRandomTopBorder());
         outputStream.writeInt(entity.getItemType().ordinal());
         outputStream.writeInt(entity.getSubActionType().ordinal());
+        outputStream.writeInt(entity.getGenerateItemId());
     }
 }

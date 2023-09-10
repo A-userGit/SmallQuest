@@ -8,6 +8,8 @@ public class LocalItem implements ItemSupported{
 
     private int id;
 
+    private int maxAmount;
+
     private ItemModel item;
 
     public LocalItem(int value) {
@@ -36,5 +38,13 @@ public class LocalItem implements ItemSupported{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getMaxAmount() {
+        return maxAmount;
+    }
+
+    public void setMaxAmount(int maxAmount) {
+        this.maxAmount = maxAmount;
     }
 }

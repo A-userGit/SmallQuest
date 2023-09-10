@@ -31,6 +31,8 @@ public class EntitiesToModelsConverter {
     {
         ActionModel  actionModel = new ActionModel(entity.getId(), entity.getDescription());
         actionModel.setActionType(entity.getActionType());
+        actionModel.setActionRole(entity.getActionRole());
+        actionModel.setTurnsActive(entity.getTurnsActive());
         return actionModel;
     }
 
@@ -52,12 +54,14 @@ public class EntitiesToModelsConverter {
     public static LocalItem getLocalItem(AssignedItemEntity entity)
     {
         LocalItem localItem = new LocalItem(entity.getAmount());
+        localItem.setMaxAmount(entity.getMaxAmount());
         return localItem;
     }
 
     public static LocalStat getLocalStat(AssignedStatEntity entity)
     {
         LocalStat localStat = new LocalStat(entity.getId(),entity.getAmount(),entity.isCritical());
+        localStat.setMaxStat(entity.getMaxStat());
         return localStat;
     }
 

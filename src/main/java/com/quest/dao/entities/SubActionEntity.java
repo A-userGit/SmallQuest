@@ -8,6 +8,8 @@ public class SubActionEntity extends BaseSubActionModel {
 
     private int itemId;
 
+    private int generateItemId;
+
 
     public SubActionEntity(int id, boolean random, int itemId, int startAmount, int randomTopBorder) {
         super(id, random, startAmount, randomTopBorder);
@@ -22,4 +24,11 @@ public class SubActionEntity extends BaseSubActionModel {
         this.itemId = itemId;
     }
 
+    public int getGenerateItemId() {
+        return generateItemId;
+    }
+
+    public void setGenerateItemId(int generateItemId) {
+        this.generateItemId = generateItemId;
+    }
 }

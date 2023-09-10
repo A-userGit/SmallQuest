@@ -14,7 +14,7 @@ public class ActionEntity extends BaseActionModel {
 
     List<Integer> nodesToGo;
 
-
+    List<Integer> actionsToExecute;
 
     public ActionEntity(int id, String description, ActionType actionType) {
         super(id, description);
@@ -22,6 +22,7 @@ public class ActionEntity extends BaseActionModel {
         requirements = new ArrayList<>();
         subActions = new ArrayList<>();
         nodesToGo = new ArrayList<>();
+        actionsToExecute = new ArrayList<>();
     }
 
     public List<Integer> getSubActions() {
@@ -48,4 +49,11 @@ public class ActionEntity extends BaseActionModel {
         this.nodesToGo = nodesToGo;
     }
 
+    public List<Integer> getActionsToExecute() {
+        return actionsToExecute;
+    }
+
+    public void setActionsToExecute(List<Integer> actionsToExecute) {
+        this.actionsToExecute = actionsToExecute;
+    }
 }

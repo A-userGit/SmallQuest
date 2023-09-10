@@ -36,6 +36,7 @@ public class  RepositoryUtility {
         outputStream.writeInt(entity.getId());
         outputStream.writeInt(entity.getItemId());
         outputStream.writeInt(entity.getAmount());
+        outputStream.writeInt(entity.getMaxAmount());
     }
 
     public static AssignedStatEntity readStat(ObjectInputStream inputStream) throws IOException {
@@ -43,7 +44,9 @@ public class  RepositoryUtility {
         int statId = inputStream.readInt();
         int value = inputStream.readInt();
         boolean critical = inputStream.readBoolean();
+        int max = inputStream.readInt();
         AssignedStatEntity statEntity = new AssignedStatEntity(id, statId, value , critical);
+        statEntity.setMaxStat(max);
         return statEntity;
     }
 
@@ -51,7 +54,9 @@ public class  RepositoryUtility {
         int id = inputStream.readInt();
         int itemId = inputStream.readInt();
         int amount = inputStream.readInt();
+        int max = inputStream.readInt();
         AssignedItemEntity entity = new AssignedItemEntity(id, itemId, amount);
+        entity.setMaxAmount(max);
         return entity;
     }
 
@@ -75,5 +80,6 @@ public class  RepositoryUtility {
         outputStream.writeInt(entity.getItemId());
         outputStream.writeInt(entity.getAmount());
         outputStream.writeBoolean(entity.isCritical());
+        outputStream.writeInt(entity.getMaxStat());
     }
 }
