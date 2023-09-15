@@ -4,6 +4,7 @@ import com.quest.commons.exceptions.NoSuchItemException;
 import com.quest.commons.interfaces.IdSupported;
 import com.quest.commons.interfaces.ItemIdSupported;
 import com.quest.commons.interfaces.ItemSupported;
+import com.quest.commons.models.ContainerItemModel;
 import com.quest.commons.models.ItemModel;
 import com.quest.dao.entities.*;
 import com.quest.services.models.*;
@@ -65,6 +66,21 @@ public class EntitiesToModelsConverter {
         return localStat;
     }
 
+    public static ContainerItemModel<ItemContainerElement> getContainerItem(ContainerItemModel<ContainerIdElement> entity)
+    {
+        ContainerItemModel<ItemContainerElement> containerItem = new ContainerItemModel<>(entity.getId(), entity.getDescription(),
+        entity.isVisibleIfZero(), entity.isInfinite());
+        return containerItem;
+    }
+
+    public static ItemContainerElement getContainerElement(ContainerIdElement idElement)
+    {
+        ItemContainerElement element = new ItemContainerElement();
+        element.setType(idElement.getType());
+        element.setQuantity(element.getQuantity());
+        return element;
+    }
+
     public static<T extends IdSupported> List<T> getListFromIds(List<Integer> idList, List<T> searchList) throws NoSuchItemException {
         ArrayList<T> resultList = new ArrayList<>();
         for (int id:idList) {
@@ -92,6 +108,4 @@ public class EntitiesToModelsConverter {
         }
         return resultList;
     }
-
-
 }

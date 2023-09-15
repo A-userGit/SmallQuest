@@ -1,5 +1,5 @@
 package com.quest.commons.types;
 
 public enum ItemType {
-    ITEM, STAT, PLAYER_ITEM,COLLECTION
+    ITEM, STAT, PLAYER_ITEM,COLLECTION,CONTAINER
 }

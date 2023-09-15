@@ -58,4 +58,9 @@ public class ItemExecutor implements Executor<LocalItem, SubActionModel> {
             dataMap.remove()
         return additionalAction;
     }
+
+    @Override
+    public SubActionModel execute(LocalItem data, SubActionModel command) {
+        return null;
+    }
 }

@@ -1,19 +1,14 @@
 package com.quest.services.logic;
 
 import com.quest.commons.exceptions.NoSuchItemException;
+import com.quest.commons.models.ContainerItemModel;
 import com.quest.commons.models.ItemModel;
 import com.quest.commons.types.ItemDaoType;
 import com.quest.commons.types.ItemType;
-import com.quest.dao.entities.ActionEntity;
-import com.quest.dao.entities.MapNodeEntity;
-import com.quest.dao.entities.RequirementEntity;
-import com.quest.dao.entities.SubActionEntity;
+import com.quest.dao.entities.*;
 import com.quest.dao.interfaces.*;
 import com.quest.dao.repositries.*;
-import com.quest.services.models.ActionModel;
-import com.quest.services.models.MapNode;
-import com.quest.services.models.RequirementModel;
-import com.quest.services.models.SubActionModel;
+import com.quest.services.models.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,15 +33,38 @@ public class LoaderService {
         actionsDao = new ActionsRepository(dataPath);
         requirementsDao = new ReqirementsRepository(dataPath);
     }
-    public HashMap<Integer,ItemModel> loadItems()
+    public HashMap<Integer,ItemModel> loadItems(HashMap<Integer,ItemModel> stats)
     {
         itemsDao.setItemDaoType(ItemDaoType.ITEM);
         HashMap<Integer,ItemModel> itemMap = new HashMap<>();
         List<ItemModel> list = itemsDao.getList();
+        itemsDao.setItemDaoType(ItemDaoType.CONTAINER);
+        List<ItemModel> listContainers = itemsDao.getList();
         for (ItemModel model:list) {
             itemMap.put(model.getId(),model);
         }
+        for (ItemModel data:listContainers) {
+            ContainerItemModel<ContainerIdElement> dataContainer = (ContainerItemModel<ContainerIdElement>)data;
+            ContainerItemModel<ItemContainerElement> containerItem = getContainerItem(dataContainer, stats, itemMap);
+            itemMap.put(containerItem.getId(), containerItem);
+        }
         return itemMap;
+    }
+
+    private ContainerItemModel<ItemContainerElement> getContainerItem(ContainerItemModel<ContainerIdElement> entity, HashMap<Integer,ItemModel> stats, HashMap<Integer,ItemModel> items)
+    {
+        ContainerItemModel<ItemContainerElement> containerItem = EntitiesToModelsConverter.getContainerItem(entity);
+        List<ContainerIdElement> elements = entity.getElements();
+        for (ContainerIdElement idElement:elements) {
+            ItemContainerElement containerElement = EntitiesToModelsConverter.getContainerElement(idElement);
+            switch (idElement.getType())
+            {
+                case STAT -> containerElement.setItem(stats.get(idElement.getItemId()));
+                case ITEM -> containerElement.setItem(items.get(idElement.getItemId()));
+            }
+            containerItem.getElements().add(containerElement);
+        }
+        return containerItem;
     }
 
     public HashMap<Integer,ItemModel> loadStats()

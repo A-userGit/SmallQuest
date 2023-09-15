@@ -49,8 +49,8 @@ public class MapService {
     }
     public MapNode loadMap() throws NoSuchItemException {
         LoaderService service = new LoaderService(dataPath);
-        items = service.loadItems();
         stats = service.loadStats();
+        items = service.loadItems(stats);
         List<SubActionModel> subActions = service.loadSubAction(items);
         List<RequirementModel> requirements = service.loadRequirements(items, stats);
         List<ActionModel> actions = service.loadActions(subActions, requirements);
