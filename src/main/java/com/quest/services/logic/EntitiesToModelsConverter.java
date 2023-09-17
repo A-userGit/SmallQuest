@@ -22,8 +22,7 @@ public class EntitiesToModelsConverter {
 
     public static SubActionModel getSubActionModel(SubActionEntity entity)
     {
-        SubActionModel subActionModel = new SubActionModel(entity.getId(), entity.isRandom(),
-                entity.getStartAmount(), entity.getRandomTopBorder());
+        SubActionModel subActionModel = new SubActionModel(entity.getId());
         subActionModel.setSubActionType(entity.getSubActionType());
         return subActionModel;
     }

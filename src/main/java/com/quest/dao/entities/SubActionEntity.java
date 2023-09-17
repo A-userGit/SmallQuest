@@ -4,7 +4,7 @@ import com.quest.commons.models.BaseSubActionModel;
 import com.quest.commons.types.ItemActionType;
 import com.quest.commons.types.ItemType;
 
-public class SubActionEntity extends BaseSubActionModel {
+public class SubActionEntity extends BaseSubActionModel<Integer,Integer> {
 
     private int itemId;
 
@@ -12,7 +12,7 @@ public class SubActionEntity extends BaseSubActionModel {
 
 
     public SubActionEntity(int id, boolean random, int itemId, int startAmount, int randomTopBorder) {
-        super(id, random, startAmount, randomTopBorder);
+        super(id, );
         this.itemId = itemId;
     }
 

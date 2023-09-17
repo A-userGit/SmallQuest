@@ -6,15 +6,15 @@ import com.quest.commons.models.ItemModel;
 import com.quest.services.interfaces.Executable;
 
 import java.util.HashMap;
+import java.util.function.Function;
 
-public class SubActionModel extends BaseSubActionModel implements Executable {
-    public SubActionModel(int id, boolean random, int startAmount, int randomTopBorder) {
-        super(id, random, startAmount, randomTopBorder);
+public class SubActionModel<T,R> extends BaseSubActionModel implements Executable {
+    public SubActionModel(int id, Function<T,R> function) {
+        super(id, function);
     }
 
     private ItemModel item;
 
-    private ItemModel toGenerateItem;
 
     public ItemModel getItem() {
         return item;
@@ -22,13 +22,5 @@ public class SubActionModel extends BaseSubActionModel implements Executable {
 
     public void setItem(ItemModel item) {
         this.item = item;
-    }
-
-    public ItemModel getToGenerateItem() {
-        return toGenerateItem;
-    }
-
-    public void setToGenerateItem(ItemModel toGenerateItem) {
-        this.toGenerateItem = toGenerateItem;
     }
 }

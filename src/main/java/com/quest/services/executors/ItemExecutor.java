@@ -8,24 +8,18 @@ import com.quest.services.models.SubActionModel;
 
 import java.util.HashMap;
 
-public class ItemExecutor implements Executor<LocalItem, SubActionModel> {
+public class ItemExecutor implements Executor<HashMap<Integer,LocalItem>, SubActionModel> {
 
     @Override
     public SubActionModel execute(HashMap<Integer,LocalItem> dataMap, SubActionModel command) {
         SubActionModel additionalAction = null;
-        LocalItem data = null
-        if(command.getSubActionType() == ItemActionType.GET_PLAYER||command.getSubActionType() == ItemActionType.GET_PLAYER_INF)
+        LocalItem data = dataMap.get(command.getItem().getId());
+        if(data == null)
         {
             data = new LocalItem(0);
             data.setItem(command.getItem());
-            data.
         }
-
-            data = dataMap.get(command.getItem().getId());
-        int changeValue = command.getStartAmount();
-        if(command.isRandom())
-         changeValue = (int) Math.round(Math.random()*(command.getRandomTopBorder()-changeValue)
-         +changeValue);
+        command.get
         ItemActionType subActionType = command.getSubActionType();
         switch (subActionType) {
             case SPEND:
@@ -37,10 +31,9 @@ public class ItemExecutor implements Executor<LocalItem, SubActionModel> {
             case GET_PLAYER_INF:
                 data.setValue(data.getMaxAmount());
                 break;
-            case SPEND_TO_INVENT: {
+            case SPEND: {
                 additionalAction = new SubActionModel(-1, false, data.getValue(), 0);
                 additionalAction.setSubActionType(ItemActionType.GET_PLAYER);
-                additionalAction.setItem(command.getToGenerateItem());
                 additionalAction.setItemType(ItemType.PLAYER_ITEM);
             }
             break;
@@ -55,7 +48,7 @@ public class ItemExecutor implements Executor<LocalItem, SubActionModel> {
 
         }
         if(data.getValue() == 0&&!data.getItem().isVisibleIfZero())
-            dataMap.remove()
+            dataMap.remove(data.getItem().getId());
         return additionalAction;
     }
 
