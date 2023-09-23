@@ -23,7 +23,7 @@ public class EntitiesToModelsConverter {
     public static SubActionModel getSubActionModel(SubActionEntity entity)
     {
         SubActionModel subActionModel = new SubActionModel(entity.getId());
-        subActionModel.setSubActionType(entity.getSubActionType());
+        subActionModel.setItemActionType(entity.getItemActionType());
         return subActionModel;
     }
 

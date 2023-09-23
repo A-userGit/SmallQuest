@@ -1,18 +1,16 @@
 package com.quest.dao.entities;
 
 import com.quest.commons.models.BaseSubActionModel;
+import com.quest.commons.models.SubActionMidResult;
 import com.quest.commons.types.ItemActionType;
 import com.quest.commons.types.ItemType;
 
-public class SubActionEntity extends BaseSubActionModel<Integer,Integer> {
+public class SubActionEntity extends BaseSubActionModel<Integer, SubActionMidResult<Integer>> {
 
     private int itemId;
 
-    private int generateItemId;
-
-
-    public SubActionEntity(int id, boolean random, int itemId, int startAmount, int randomTopBorder) {
-        super(id, );
+    public SubActionEntity(int id, int itemId) {
+        super(id);
         this.itemId = itemId;
     }
 
@@ -24,11 +22,4 @@ public class SubActionEntity extends BaseSubActionModel<Integer,Integer> {
         this.itemId = itemId;
     }
 
-    public int getGenerateItemId() {
-        return generateItemId;
-    }
-
-    public void setGenerateItemId(int generateItemId) {
-        this.generateItemId = generateItemId;
-    }
 }

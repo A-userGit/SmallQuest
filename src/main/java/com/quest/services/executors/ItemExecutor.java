@@ -20,7 +20,7 @@ public class ItemExecutor implements Executor<HashMap<Integer,LocalItem>, SubAct
             data.setItem(command.getItem());
         }
         command.get
-        ItemActionType subActionType = command.getSubActionType();
+        ItemActionType subActionType = command.getItemActionType();
         switch (subActionType) {
             case SPEND:
                 data.setValue(data.getValue() - changeValue);
@@ -33,13 +33,13 @@ public class ItemExecutor implements Executor<HashMap<Integer,LocalItem>, SubAct
                 break;
             case SPEND: {
                 additionalAction = new SubActionModel(-1, false, data.getValue(), 0);
-                additionalAction.setSubActionType(ItemActionType.GET_PLAYER);
+                additionalAction.setItemActionType(ItemActionType.GET_PLAYER);
                 additionalAction.setItemType(ItemType.PLAYER_ITEM);
             }
             break;
             case SPEND_TO_STAT: {
                 additionalAction = new SubActionModel(-1, false, data.getValue(), 0);
-                additionalAction.setSubActionType(ItemActionType.GET_PLAYER);
+                additionalAction.setItemActionType(ItemActionType.GET_PLAYER);
                 additionalAction.setItem(command.getToGenerateItem());
                 additionalAction.setItemType(ItemType.STAT);
             }
@@ -50,10 +50,5 @@ public class ItemExecutor implements Executor<HashMap<Integer,LocalItem>, SubAct
         if(data.getValue() == 0&&!data.getItem().isVisibleIfZero())
             dataMap.remove(data.getItem().getId());
         return additionalAction;
-    }
-
-    @Override
-    public SubActionModel execute(LocalItem data, SubActionModel command) {
-        return null;
     }
 }

@@ -1,7 +1,5 @@
 package com.quest.services.executors;
 
-import com.quest.commons.types.ItemActionType;
-import com.quest.commons.types.ItemType;
 import com.quest.services.interfaces.Executor;
 import com.quest.services.models.LocalStat;
 import com.quest.services.models.SubActionModel;
@@ -14,7 +12,7 @@ public class StatExecutor implements Executor<LocalStat, SubActionModel> {
         if(command.isRandom())
             changeValue = (int) Math.round(Math.random()*(command.getRandomTopBorder()-changeValue)
                     +changeValue);
-        switch (command.getSubActionType()) {
+        switch (command.getItemActionType()) {
             case SPEND:
                 data.setAmount(data.getAmount() - changeValue);
                 break;

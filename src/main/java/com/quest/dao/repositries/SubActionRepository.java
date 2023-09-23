@@ -2,8 +2,6 @@ package com.quest.dao.repositries;
 
 import com.quest.commons.types.ItemActionType;
 import com.quest.commons.types.ItemType;
-import com.quest.dao.entities.ActionEntity;
-import com.quest.dao.entities.RequirementEntity;
 import com.quest.dao.entities.SubActionEntity;
 import com.quest.dao.interfaces.SubActionsDao;
 
@@ -37,14 +35,11 @@ public class SubActionRepository implements SubActionsDao {
             while (fileInputStream.available()>0)
             {
                 int id = inputStream.readInt();
-                boolean random = inputStream.readBoolean();
                 int itemId = inputStream.readInt();
-                int startVal = inputStream.readInt();
-                int topVal = inputStream.readInt();
-                SubActionEntity subActionsEntity = new SubActionEntity(id, random, itemId, startVal, topVal);
+                SubActionEntity subActionsEntity = new SubActionEntity(id,itemId);
                 subActionsEntity.setItemType(ItemType.values()[inputStream.readInt()]);
-                subActionsEntity.setSubActionType(ItemActionType.values()[inputStream.readInt()]);
-                subActionsEntity.setGenerateItemId(inputStream.readInt());
+                subActionsEntity.setItemActionType(ItemActionType.values()[inputStream.readInt()]);
+                subActionsEntity.set
                 actionsList.add(subActionsEntity);
             }
         } catch (FileNotFoundException e) {
@@ -93,7 +88,7 @@ public class SubActionRepository implements SubActionsDao {
         outputStream.writeInt(entity.getStartAmount());
         outputStream.writeInt(entity.getRandomTopBorder());
         outputStream.writeInt(entity.getItemType().ordinal());
-        outputStream.writeInt(entity.getSubActionType().ordinal());
+        outputStream.writeInt(entity.getItemActionType().ordinal());
         outputStream.writeInt(entity.getGenerateItemId());
     }
 }

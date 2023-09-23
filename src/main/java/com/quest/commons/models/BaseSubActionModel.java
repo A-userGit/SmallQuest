@@ -1,17 +1,21 @@
 package com.quest.commons.models;
 
 import com.quest.commons.interfaces.IdSupported;
-import com.quest.commons.interfaces.ItemSupported;
+import com.quest.commons.models.subactdata.ActionDataTypes;
 import com.quest.commons.types.ItemActionType;
 import com.quest.commons.types.ItemType;
 
 import java.util.function.Function;
 
-public class BaseSubActionModel<T,R extends ItemSupported> implements IdSupported {
+public class BaseSubActionModel<T,R extends IdSupported> implements IdSupported {
 
     private int id;
 
-    private ItemActionType subActionType;
+    private ItemActionType itemActionType;
+
+    private ActionDataTypes actionDataType;
+
+    private
 
     private ItemType itemType;
 
@@ -32,12 +36,12 @@ public class BaseSubActionModel<T,R extends ItemSupported> implements IdSupporte
         this.id = id;
     }
 
-    public ItemActionType getSubActionType() {
-        return subActionType;
+    public ItemActionType getItemActionType() {
+        return itemActionType;
     }
 
-    public void setSubActionType(ItemActionType subActionType) {
-        this.subActionType = subActionType;
+    public void setItemActionType(ItemActionType itemActionType) {
+        this.itemActionType = itemActionType;
     }
 
     public ItemType getItemType() {
