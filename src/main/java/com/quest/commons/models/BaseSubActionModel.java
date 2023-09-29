@@ -1,13 +1,17 @@
 package com.quest.commons.models;
 
 import com.quest.commons.interfaces.IdSupported;
-import com.quest.commons.models.subactdata.ActionDataTypes;
+import com.quest.commons.interfaces.ReadableEnum;
+import com.quest.commons.models.subactdata.ActionDataInterface;
+import com.quest.commons.types.ActionDataTypes;
+import com.quest.commons.types.ActionFunctionType;
 import com.quest.commons.types.ItemActionType;
 import com.quest.commons.types.ItemType;
 
-import java.util.function.Function;
+import java.util.HashMap;
+import java.util.Map;
 
-public class BaseSubActionModel<T,R extends IdSupported> implements IdSupported {
+public class BaseSubActionModel implements IdSupported {
 
     private int id;
 
@@ -15,17 +19,46 @@ public class BaseSubActionModel<T,R extends IdSupported> implements IdSupported 
 
     private ActionDataTypes actionDataType;
 
-    private
+    private ActionFunctionType actionFunctionType;
 
     private ItemType itemType;
 
-    private T changeData;
+    private ActionDataInterface changeData;
 
-    private Function<T,R> changeFunction;
+    private Map<ReadableEnum, ReadableEnum> sourceConsumerPairs;
 
-    public BaseSubActionModel(int id,Function<T,R> changeFunction) {
+    public BaseSubActionModel(int id) {
         this.id = id;
+        sourceConsumerPairs = new HashMap<>();
 
+    }
+
+    public void setChangeData(ActionDataInterface changeData) {
+        this.changeData = changeData;
+    }
+
+    public Map<ReadableEnum, ReadableEnum> getSourceConsumerPairs() {
+        return sourceConsumerPairs;
+    }
+
+    public void setSourceConsumerPairs(Map<ReadableEnum, ReadableEnum> sourceConsumerPairs) {
+        this.sourceConsumerPairs = sourceConsumerPairs;
+    }
+
+    public ActionDataTypes getActionDataType() {
+        return actionDataType;
+    }
+
+    public void setActionDataType(ActionDataTypes actionDataType) {
+        this.actionDataType = actionDataType;
+    }
+
+    public ActionFunctionType getActionFunctionType() {
+        return actionFunctionType;
+    }
+
+    public void setActionFunctionType(ActionFunctionType actionFunctionType) {
+        this.actionFunctionType = actionFunctionType;
     }
 
     public int getId() {
@@ -51,4 +84,9 @@ public class BaseSubActionModel<T,R extends IdSupported> implements IdSupported 
     public void setItemType(ItemType itemType) {
         this.itemType = itemType;
     }
+
+    public ActionDataInterface getChangeData() {
+        return changeData;
+    }
+
 }

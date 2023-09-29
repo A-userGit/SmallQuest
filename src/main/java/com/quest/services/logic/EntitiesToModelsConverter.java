@@ -24,6 +24,12 @@ public class EntitiesToModelsConverter {
     {
         SubActionModel subActionModel = new SubActionModel(entity.getId());
         subActionModel.setItemActionType(entity.getItemActionType());
+        subActionModel.setActionDataType(entity.getActionDataType());
+        subActionModel.setActionFunctionType(entity.getActionFunctionType());
+        subActionModel.setChangeData(entity.getChangeData());
+        subActionModel.setSourceConsumerPairs(entity.getSourceConsumerPairs());
+        subActionModel.setItemType(entity.getItemType());
+        subActionModel.setChangeFunction();
         return subActionModel;
     }
 

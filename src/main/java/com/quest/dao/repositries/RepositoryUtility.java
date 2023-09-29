@@ -2,13 +2,12 @@ package com.quest.dao.repositries;
 
 import com.quest.commons.interfaces.BiConsumerWException;
 import com.quest.commons.interfaces.FunctionWException;
+import com.quest.commons.interfaces.ReadableEnum;
 import com.quest.dao.entities.AssignedItemEntity;
 import com.quest.dao.entities.AssignedStatEntity;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class  RepositoryUtility {
 
@@ -18,6 +17,29 @@ public class  RepositoryUtility {
         for (T entity :collection) {
             writer.accept(outputStream, entity);
         }
+    }
+
+    public static <K,V> void writeMap(ObjectOutputStream outputStream, Map<K,V> map, BiConsumerWException<ObjectOutputStream,K> keyWriter,
+                                      BiConsumerWException<ObjectOutputStream,V> valueWriter) throws Exception {
+        outputStream.writeInt(map.size());
+        Set<K> keys = map.keySet();
+        for (K key:keys) {
+            V value = map.get(key);
+            keyWriter.accept(outputStream, key);
+            valueWriter.accept(outputStream, value);
+        }
+    }
+
+    public static <K,V> Map<K,V> readMap(ObjectInputStream inputStream, FunctionWException<ObjectInputStream,K> keyReader,
+                                         FunctionWException<ObjectInputStream,V> valueReader) throws Exception {
+        int itemsAmount = inputStream.readInt();
+        Map<K,V> map = new HashMap<>();
+        while (itemsAmount>0)
+        {
+            map.put(keyReader.apply(inputStream),valueReader.apply(inputStream));
+            itemsAmount--;
+        }
+        return map;
     }
 
     public  static <T> List<T> readCollection(ObjectInputStream inputStream,
@@ -81,5 +103,16 @@ public class  RepositoryUtility {
         outputStream.writeInt(entity.getAmount());
         outputStream.writeBoolean(entity.isCritical());
         outputStream.writeInt(entity.getMaxStat());
+    }
+
+    public static void writeEnum(ObjectOutputStream outputStream, ReadableEnum enumData) throws IOException {
+        outputStream.writeUTF(enumData.getClass().getName());
+        outputStream.writeInt(enumData.ordinal());
+    }
+
+    public static ReadableEnum readEnum(ObjectInputStream inputStream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Class<? extends ReadableEnum> enumClass = (Class<? extends ReadableEnum>) Class.forName(inputStream.readLine());
+        ReadableEnum readableEnum = enumClass.newInstance();
+        return readableEnum.getValue(inputStream.readInt());
     }
 }

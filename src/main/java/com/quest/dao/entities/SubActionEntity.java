@@ -5,7 +5,7 @@ import com.quest.commons.models.SubActionMidResult;
 import com.quest.commons.types.ItemActionType;
 import com.quest.commons.types.ItemType;
 
-public class SubActionEntity extends BaseSubActionModel<Integer, SubActionMidResult<Integer>> {
+public class SubActionEntity extends BaseSubActionModel {
 
     private int itemId;
 

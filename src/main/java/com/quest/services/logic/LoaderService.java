@@ -98,10 +98,6 @@ public class LoaderService {
         for (SubActionEntity entity: list) {
             SubActionModel subActionModel = EntitiesToModelsConverter.getSubActionModel(entity);
             ItemModel itemModel = items.get(entity.getItemId());
-            ItemModel genItem = null;
-            if(entity.getGenerateItemId()>0) {
-                genItem = items.get(entity.getGenerateItemId());
-            }
             if(itemModel == null) {
                 String name = items.getClass().getComponentType().getCanonicalName();
                 throw new NoSuchItemException(entity.getItemId(), name);
