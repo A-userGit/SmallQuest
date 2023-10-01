@@ -4,7 +4,7 @@ import com.quest.commons.interfaces.FunctionWException;
 import com.quest.commons.models.ContainerItemModel;
 import com.quest.commons.models.ItemModel;
 import com.quest.commons.types.ItemDaoType;
-import com.quest.commons.types.ItemType;
+import com.quest.commons.types.ItemPlace;
 import com.quest.dao.entities.ContainerIdElement;
 import com.quest.dao.interfaces.ItemsDao;
 
@@ -140,7 +140,7 @@ public class ItemsRepository implements ItemsDao {
     private void writeContainerElement(ObjectOutputStream outputStream,ContainerIdElement element) throws IOException {
         outputStream.writeInt(element.getItemId());
         outputStream.writeInt(element.getQuantity());
-        outputStream.writeInt(element.getType().ordinal());
+        outputStream.writeInt(element.getItemPlace().ordinal());
     }
 
     private ItemModel readEntity(ObjectInputStream inputStream) throws IOException {
@@ -155,7 +155,7 @@ public class ItemsRepository implements ItemsDao {
     private ContainerIdElement readContainerElement(ObjectInputStream inputStream) throws IOException {
         ContainerIdElement containerIdElement = new ContainerIdElement(inputStream.readInt());
         containerIdElement.setQuantity(inputStream.readInt());
-        containerIdElement.setType(ItemType.values()[inputStream.readInt()]);
+        containerIdElement.setItemPlace(ItemPlace.values()[inputStream.readInt()]);
         return containerIdElement;
     }
 

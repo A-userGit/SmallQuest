@@ -6,7 +6,7 @@ import com.quest.commons.models.subactdata.ActionDataInterface;
 import com.quest.commons.types.ActionDataTypes;
 import com.quest.commons.types.ActionFunctionType;
 import com.quest.commons.types.ItemActionType;
-import com.quest.commons.types.ItemType;
+import com.quest.commons.types.ItemPlace;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,11 +21,11 @@ public class BaseSubActionModel implements IdSupported {
 
     private ActionFunctionType actionFunctionType;
 
-    private ItemType itemType;
+    private ItemPlace itemPlace;
 
     private ActionDataInterface changeData;
 
-    private Map<ReadableEnum, ReadableEnum> sourceConsumerPairs;
+    private Map<ReadableEnum, FieldValueItemPlace> sourceConsumerPairs;
 
     public BaseSubActionModel(int id) {
         this.id = id;
@@ -37,11 +37,11 @@ public class BaseSubActionModel implements IdSupported {
         this.changeData = changeData;
     }
 
-    public Map<ReadableEnum, ReadableEnum> getSourceConsumerPairs() {
+    public Map<ReadableEnum, FieldValueItemPlace> getSourceConsumerPairs() {
         return sourceConsumerPairs;
     }
 
-    public void setSourceConsumerPairs(Map<ReadableEnum, ReadableEnum> sourceConsumerPairs) {
+    public void setSourceConsumerPairs(Map<ReadableEnum, FieldValueItemPlace> sourceConsumerPairs) {
         this.sourceConsumerPairs = sourceConsumerPairs;
     }
 
@@ -77,12 +77,12 @@ public class BaseSubActionModel implements IdSupported {
         this.itemActionType = itemActionType;
     }
 
-    public ItemType getItemType() {
-        return itemType;
+    public ItemPlace getItemType() {
+        return itemPlace;
     }
 
-    public void setItemType(ItemType itemType) {
-        this.itemType = itemType;
+    public void setItemType(ItemPlace itemPlace) {
+        this.itemPlace = itemPlace;
     }
 
     public ActionDataInterface getChangeData() {

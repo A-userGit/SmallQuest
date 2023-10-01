@@ -3,6 +3,9 @@ package com.quest.dao.repositries;
 import com.quest.commons.interfaces.BiConsumerWException;
 import com.quest.commons.interfaces.FunctionWException;
 import com.quest.commons.interfaces.ReadableEnum;
+import com.quest.commons.models.FieldValueItemPlace;
+import com.quest.commons.types.ItemPlace;
+import com.quest.commons.types.ItemType;
 import com.quest.dao.entities.AssignedItemEntity;
 import com.quest.dao.entities.AssignedStatEntity;
 
@@ -114,5 +117,21 @@ public class  RepositoryUtility {
         Class<? extends ReadableEnum> enumClass = (Class<? extends ReadableEnum>) Class.forName(inputStream.readLine());
         ReadableEnum readableEnum = enumClass.newInstance();
         return readableEnum.getValue(inputStream.readInt());
+    }
+
+    public static void writeFieldValueItemPlace(ObjectOutputStream outputStream, FieldValueItemPlace itemPlace) throws IOException {
+        outputStream.writeInt(itemPlace.getId());
+        outputStream.writeInt(itemPlace.getPlace().ordinal());
+        writeEnum(outputStream, itemPlace.getField());
+        outputStream.writeInt(itemPlace.getType().ordinal());
+    }
+
+    public static FieldValueItemPlace readFieldValueItemPlace(ObjectInputStream inputStream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        FieldValueItemPlace fieldValueItemPlace = new FieldValueItemPlace();
+        fieldValueItemPlace.setId(inputStream.readInt());
+        fieldValueItemPlace.setPlace(ItemPlace.values()[inputStream.readInt()]);
+        fieldValueItemPlace.setField(readEnum(inputStream));
+        fieldValueItemPlace.setType(ItemType.values()[inputStream.readInt()]);
+        return fieldValueItemPlace;
     }
 }

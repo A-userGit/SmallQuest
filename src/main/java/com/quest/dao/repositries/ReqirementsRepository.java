@@ -1,9 +1,8 @@
 package com.quest.dao.repositries;
 
 import com.quest.commons.types.ItemActionType;
-import com.quest.commons.types.ItemType;
+import com.quest.commons.types.ItemPlace;
 import com.quest.commons.types.RestrictionType;
-import com.quest.dao.entities.MapNodeEntity;
 import com.quest.dao.entities.RequirementEntity;
 import com.quest.dao.interfaces.RequirementsDao;
 
@@ -44,7 +43,7 @@ public class ReqirementsRepository implements RequirementsDao {
                 boolean blocker = inputStream.readBoolean();
                 RequirementEntity requirementEntity = new RequirementEntity(id, description, value, blocker);
                 requirementEntity.setItemId(itemId);
-                requirementEntity.setItemType(ItemType.values()[inputStream.readInt()]);
+                requirementEntity.setItemType(ItemPlace.values()[inputStream.readInt()]);
                 requirementEntity.setRestrictionType(RestrictionType.values()[inputStream.readInt()]);
                 requirementEntity.setActionType(ItemActionType.values()[inputStream.readInt()]);
             }

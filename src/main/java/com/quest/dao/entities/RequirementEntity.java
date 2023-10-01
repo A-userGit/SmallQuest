@@ -1,11 +1,6 @@
   package com.quest.dao.entities;
 
-  import com.quest.commons.models.BaseModel;
   import com.quest.commons.models.BaseRequirementModel;
-  import com.quest.commons.types.ItemActionType;
-  import com.quest.commons.models.ItemModel;
-  import com.quest.commons.types.ItemType;
-  import com.quest.commons.types.RestrictionType;
 
   public class RequirementEntity extends BaseRequirementModel {
 

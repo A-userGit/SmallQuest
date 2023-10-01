@@ -1,7 +1,7 @@
 package com.quest.commons.models;
 
 import com.quest.commons.types.ItemActionType;
-import com.quest.commons.types.ItemType;
+import com.quest.commons.types.ItemPlace;
 import com.quest.commons.types.RestrictionType;
 
 public class BaseRequirementModel extends BaseModel{
@@ -12,7 +12,7 @@ public class BaseRequirementModel extends BaseModel{
 
     private  int value;
 
-    private ItemType itemType;
+    private ItemPlace itemPlace;
 
     private RestrictionType restrictionType;
 
@@ -46,12 +46,12 @@ public class BaseRequirementModel extends BaseModel{
         this.value = value;
     }
 
-    public ItemType getItemType() {
-        return itemType;
+    public ItemPlace getItemType() {
+        return itemPlace;
     }
 
-    public void setItemType(ItemType itemType) {
-        this.itemType = itemType;
+    public void setItemType(ItemPlace itemPlace) {
+        this.itemPlace = itemPlace;
     }
 
     public RestrictionType getRestrictionType() {

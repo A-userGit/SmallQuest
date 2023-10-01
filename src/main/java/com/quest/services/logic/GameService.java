@@ -3,7 +3,6 @@ package com.quest.services.logic;
 import com.quest.commons.exceptions.DataException;
 import com.quest.commons.exceptions.NoSuchItemException;
 import com.quest.commons.models.ItemModel;
-import com.quest.commons.types.ItemType;
 import com.quest.services.comparators.ItemQuantityComparator;
 import com.quest.services.comparators.StatComparator;
 import com.quest.services.interfaces.IValidated;

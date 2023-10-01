@@ -1,10 +1,11 @@
 package com.quest.dao.repositries;
 
 import com.quest.commons.interfaces.ReadableEnum;
+import com.quest.commons.models.FieldValueItemPlace;
 import com.quest.commons.types.ActionDataTypes;
 import com.quest.commons.types.ActionFunctionType;
 import com.quest.commons.types.ItemActionType;
-import com.quest.commons.types.ItemType;
+import com.quest.commons.types.ItemPlace;
 import com.quest.dao.entities.SubActionEntity;
 import com.quest.dao.interfaces.SubActionsDao;
 import com.quest.dao.repositries.subactdata.ActionDataProvider;
@@ -90,13 +91,14 @@ public class SubActionRepository implements SubActionsDao {
 
     private SubActionEntity readEntity(ObjectInputStream inputStream) throws Exception {
         SubActionEntity subActionsEntity = new SubActionEntity(inputStream.readInt(), inputStream.readInt());
-        subActionsEntity.setItemType(ItemType.values()[inputStream.readInt()]);
+        subActionsEntity.setItemType(ItemPlace.values()[inputStream.readInt()]);
         subActionsEntity.setItemActionType(ItemActionType.values()[inputStream.readInt()]);
         subActionsEntity.setActionDataType(ActionDataTypes.values()[inputStream.readInt()]);
         subActionsEntity.setActionFunctionType(ActionFunctionType.values()[inputStream.readInt()]);
         ActionDataSourceInterface provider = ActionDataProvider.getProvider(subActionsEntity.getActionDataType());
         subActionsEntity.setChangeData(provider.readData(inputStream));
-        Map<ReadableEnum, ReadableEnum> readableEnumMap = RepositoryUtility.readMap(inputStream, RepositoryUtility::readEnum, RepositoryUtility::readEnum);
+        Map<ReadableEnum, FieldValueItemPlace> readableEnumMap = RepositoryUtility.readMap(inputStream, RepositoryUtility::readEnum,
+                RepositoryUtility::readFieldValueItemPlace);
         subActionsEntity.setSourceConsumerPairs(readableEnumMap);
         return subActionsEntity;
     }
@@ -110,6 +112,7 @@ public class SubActionRepository implements SubActionsDao {
         outputStream.writeInt(entity.getActionFunctionType().ordinal());
         ActionDataSourceInterface provider = ActionDataProvider.getProvider(entity.getActionDataType());
         provider.writeData(outputStream, entity.getChangeData());
-        RepositoryUtility.writeMap(outputStream, entity.getSourceConsumerPairs(), RepositoryUtility::writeEnum, RepositoryUtility::writeEnum);
+        RepositoryUtility.writeMap(outputStream, entity.getSourceConsumerPairs(), RepositoryUtility::writeEnum,
+                RepositoryUtility::writeFieldValueItemPlace);
     }
 }

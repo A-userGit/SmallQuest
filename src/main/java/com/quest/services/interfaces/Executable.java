@@ -1,8 +1,8 @@
 package com.quest.services.interfaces;
 
-import com.quest.commons.types.ItemType;
+import com.quest.commons.types.ItemPlace;
 
 public interface Executable {
 
-    public ItemType getItemType();
+    public ItemPlace getItemType();
 }

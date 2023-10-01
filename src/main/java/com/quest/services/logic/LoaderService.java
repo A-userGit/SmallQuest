@@ -4,7 +4,7 @@ import com.quest.commons.exceptions.NoSuchItemException;
 import com.quest.commons.models.ContainerItemModel;
 import com.quest.commons.models.ItemModel;
 import com.quest.commons.types.ItemDaoType;
-import com.quest.commons.types.ItemType;
+import com.quest.commons.types.ItemPlace;
 import com.quest.dao.entities.*;
 import com.quest.dao.interfaces.*;
 import com.quest.dao.repositries.*;
@@ -13,7 +13,6 @@ import com.quest.services.models.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 import static com.quest.services.logic.EntitiesToModelsConverter.getListFromIds;
 
@@ -57,7 +56,7 @@ public class LoaderService {
         List<ContainerIdElement> elements = entity.getElements();
         for (ContainerIdElement idElement:elements) {
             ItemContainerElement containerElement = EntitiesToModelsConverter.getContainerElement(idElement);
-            switch (idElement.getType())
+            switch (idElement.getItemPlace())
             {
                 case STAT -> containerElement.setItem(stats.get(idElement.getItemId()));
                 case ITEM -> containerElement.setItem(items.get(idElement.getItemId()));
@@ -103,7 +102,6 @@ public class LoaderService {
                 throw new NoSuchItemException(entity.getItemId(), name);
             }
             subActionModel.setItem(itemModel);
-            subActionModel.setToGenerateItem(genItem);
             results.add(subActionModel);
         }
         return results;
@@ -121,7 +119,7 @@ public class LoaderService {
             List<RequirementModel> statsReq = new ArrayList<>();
             List<RequirementModel> itemsReq = new ArrayList<>();
             for (RequirementModel requirement:requirementList) {
-                if(requirement.getItemType() == ItemType.STAT)
+                if(requirement.getItemType() == ItemPlace.STAT)
                     statsReq.add(requirement);
                 else
                     itemsReq.add(requirement);
@@ -144,7 +142,7 @@ public class LoaderService {
         for (RequirementEntity entity:list) {
             RequirementModel requirementModel = EntitiesToModelsConverter.getRequirementModel(entity);
             ItemModel itemModel = null;
-            if(requirementModel.getItemType() == ItemType.ITEM)
+            if(requirementModel.getItemType() == ItemPlace.ITEM)
                  itemModel = items.get(entity.getItemId());
             else
                 itemModel = stats.get(entity.getItemId());

@@ -1,12 +1,12 @@
 package com.quest.services.logic;
 
-import com.quest.commons.types.ItemType;
+import com.quest.commons.types.ItemPlace;
 import com.quest.services.executors.ItemExecutor;
 import com.quest.services.executors.StatExecutor;
 import com.quest.services.interfaces.Executor;
 
 public class ExecutorsFactory {
-    public Executor getExecutor(ItemType type)
+    public Executor getExecutor(ItemPlace type)
     {
         switch (type)
         {

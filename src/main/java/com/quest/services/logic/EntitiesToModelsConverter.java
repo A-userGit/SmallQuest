@@ -81,7 +81,7 @@ public class EntitiesToModelsConverter {
     public static ItemContainerElement getContainerElement(ContainerIdElement idElement)
     {
         ItemContainerElement element = new ItemContainerElement();
-        element.setType(idElement.getType());
+        element.setItemPlace(idElement.getItemPlace());
         element.setQuantity(element.getQuantity());
         return element;
     }

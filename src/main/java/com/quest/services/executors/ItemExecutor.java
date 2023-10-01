@@ -1,7 +1,7 @@
 package com.quest.services.executors;
 
 import com.quest.commons.types.ItemActionType;
-import com.quest.commons.types.ItemType;
+import com.quest.commons.types.ItemPlace;
 import com.quest.services.interfaces.Executor;
 import com.quest.services.models.LocalItem;
 import com.quest.services.models.SubActionModel;
@@ -34,14 +34,14 @@ public class ItemExecutor implements Executor<HashMap<Integer,LocalItem>, SubAct
             case SPEND: {
                 additionalAction = new SubActionModel(-1, false, data.getValue(), 0);
                 additionalAction.setItemActionType(ItemActionType.GET_PLAYER);
-                additionalAction.setItemType(ItemType.PLAYER_ITEM);
+                additionalAction.setItemType(ItemPlace.PLAYER_ITEM);
             }
             break;
             case SPEND_TO_STAT: {
                 additionalAction = new SubActionModel(-1, false, data.getValue(), 0);
                 additionalAction.setItemActionType(ItemActionType.GET_PLAYER);
                 additionalAction.setItem(command.getToGenerateItem());
-                additionalAction.setItemType(ItemType.STAT);
+                additionalAction.setItemType(ItemPlace.STAT);
             }
             break;
             case GET_TO_INVIR:data.setValue(data.getValue() -changeValue);

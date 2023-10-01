@@ -1,9 +1,6 @@
 package com.quest.dao.entities;
 
 import com.quest.commons.models.BaseSubActionModel;
-import com.quest.commons.models.SubActionMidResult;
-import com.quest.commons.types.ItemActionType;
-import com.quest.commons.types.ItemType;
 
 public class SubActionEntity extends BaseSubActionModel {
 
