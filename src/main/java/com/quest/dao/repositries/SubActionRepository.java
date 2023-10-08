@@ -112,7 +112,7 @@ public class SubActionRepository implements SubActionsDao {
         outputStream.writeInt(entity.getActionFunctionType().ordinal());
         ActionDataSourceInterface provider = ActionDataProvider.getProvider(entity.getActionDataType());
         provider.writeData(outputStream, entity.getChangeData());
-        RepositoryUtility.writeMap(outputStream, entity.getSourceConsumerPairs(), RepositoryUtility::writeEnum,
-                RepositoryUtility::writeFieldValueItemPlace);
+        RepositoryUtility.writeMap(outputStream, entity.getSourceConsumerPairs(), RepositoryUtility::writeFieldValueItemPlace,
+                RepositoryUtility::writeEnum);
     }
 }

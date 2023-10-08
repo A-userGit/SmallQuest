@@ -25,7 +25,7 @@ public class BaseSubActionModel implements IdSupported {
 
     private ActionDataInterface changeData;
 
-    private Map<ReadableEnum, FieldValueItemPlace> sourceConsumerPairs;
+    private Map<FieldValueItemPlace,ReadableEnum> sourceConsumerPairs;
 
     public BaseSubActionModel(int id) {
         this.id = id;
@@ -37,11 +37,11 @@ public class BaseSubActionModel implements IdSupported {
         this.changeData = changeData;
     }
 
-    public Map<ReadableEnum, FieldValueItemPlace> getSourceConsumerPairs() {
+    public Map<FieldValueItemPlace, ReadableEnum> getSourceConsumerPairs() {
         return sourceConsumerPairs;
     }
 
-    public void setSourceConsumerPairs(Map<ReadableEnum, FieldValueItemPlace> sourceConsumerPairs) {
+    public void setSourceConsumerPairs(Map<FieldValueItemPlace, ReadableEnum> sourceConsumerPairs) {
         this.sourceConsumerPairs = sourceConsumerPairs;
     }
 

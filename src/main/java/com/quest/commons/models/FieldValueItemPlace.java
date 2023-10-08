@@ -9,6 +9,8 @@ public class FieldValueItemPlace {
 
     private ReadableEnum field;
 
+    private
+
     private ItemPlace place;
 
     private ItemType type;

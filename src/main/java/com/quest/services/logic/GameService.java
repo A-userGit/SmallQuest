@@ -2,17 +2,18 @@ package com.quest.services.logic;
 
 import com.quest.commons.exceptions.DataException;
 import com.quest.commons.exceptions.NoSuchItemException;
+import com.quest.commons.interfaces.ReadableEnum;
+import com.quest.commons.models.FieldValueItemPlace;
 import com.quest.commons.models.ItemModel;
+import com.quest.commons.types.ItemPlace;
 import com.quest.services.comparators.ItemQuantityComparator;
 import com.quest.services.comparators.StatComparator;
 import com.quest.services.interfaces.IValidated;
 import com.quest.services.interfaces.RequirementComparator;
+import com.quest.services.logic.functions.NumFuncAnswer;
 import com.quest.services.models.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class GameService {
 
@@ -89,9 +90,34 @@ public class GameService {
 
     public void processSubActions(List<SubActionModel> subActions)
     {
+        List<NumFuncAnswer> intermediateResults = new ArrayList<>();
         for (SubActionModel subAction: subActions) {
-            if
+            subAction.getActionDataType() ==
         }
+    }
+
+    private Map<ItemPlace,Map> getRequiredData(SubActionModel subAction)
+    {
+        Map<ItemPlace, Map> requiredData = new HashMap<ItemPlace,Map>();
+        Set<FieldValueItemPlace> fieldValueItemPlaces = subAction.getSourceConsumerPairs().keySet();
+        for (FieldValueItemPlace place :fieldValueItemPlaces) {
+            switch (place.getPlace())
+            {
+                case STAT-> {
+                    if(!requiredData.containsKey(ItemPlace.STAT))
+                        requiredData.put(ItemPlace.STAT, currentPlayer.getStats());
+                }
+                case ITEM -> {
+                    if(!requiredData.containsKey(ItemPlace.ITEM))
+                        requiredData.put(ItemPlace.ITEM, items);
+                }
+                case PLAYER_ITEM -> {
+                    if(!requiredData.containsKey(ItemPlace.PLAYER_ITEM))
+                        requiredData.put(ItemPlace.STAT, currentPlayer.getInventory());
+                }
+            }
+        }
+        return requiredData;
     }
 
     public boolean makeTurn(int actionId)

@@ -5,7 +5,7 @@ import com.quest.commons.types.ItemPlace;
 import java.util.List;
 import java.util.Map;
 
-public interface Executor<T,K extends Executable> {
+public interface Executor<T,K > {
     public K execute(T data, K command);
 
     public List<ItemPlace> getNeededAdditionalCollections();

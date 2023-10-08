@@ -1,5 +1,5 @@
 package com.quest.commons.types;
 
 public enum ActionFunctionType {
-    ADD,SUB,MUL,DIV;
+    SIMPL_ARITHM, RAND;
 }

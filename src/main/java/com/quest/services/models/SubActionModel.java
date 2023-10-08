@@ -4,6 +4,7 @@ import com.quest.commons.interfaces.ItemIdSupported;
 import com.quest.commons.models.BaseSubActionModel;
 import com.quest.commons.models.ItemModel;
 import com.quest.commons.models.subactdata.ActionDataInterface;
+import com.quest.services.interfaces.ActionFunction;
 import com.quest.services.interfaces.Executable;
 
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public class SubActionModel<R> extends BaseSubActionModel implements Executable 
 
     private ItemModel item;
 
-    private Function<ActionDataInterface,R> changeFunction;
+    private ActionFunction changeFunction;
 
     public ItemModel getItem() {
         return item;
@@ -26,11 +27,11 @@ public class SubActionModel<R> extends BaseSubActionModel implements Executable 
         this.item = item;
     }
 
-    public Function<ActionDataInterface, R> getChangeFunction() {
+    public ActionFunction getChangeFunction() {
         return changeFunction;
     }
 
-    public void setChangeFunction(Function<ActionDataInterface, R> changeFunction) {
+    public void setChangeFunction(ActionFunction changeFunction) {
         this.changeFunction = changeFunction;
     }
 }
