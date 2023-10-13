@@ -56,7 +56,7 @@ public class LoaderService {
         List<ContainerIdElement> elements = entity.getElements();
         for (ContainerIdElement idElement:elements) {
             ItemContainerElement containerElement = EntitiesToModelsConverter.getContainerElement(idElement);
-            switch (idElement.getItemPlace())
+            switch (idElement.get)
             {
                 case STAT -> containerElement.setItem(stats.get(idElement.getItemId()));
                 case ITEM -> containerElement.setItem(items.get(idElement.getItemId()));
@@ -119,7 +119,7 @@ public class LoaderService {
             List<RequirementModel> statsReq = new ArrayList<>();
             List<RequirementModel> itemsReq = new ArrayList<>();
             for (RequirementModel requirement:requirementList) {
-                if(requirement.getItemType() == ItemPlace.STAT)
+                if(requirement.getItemPlace() == ItemPlace.STAT)
                     statsReq.add(requirement);
                 else
                     itemsReq.add(requirement);
@@ -142,7 +142,7 @@ public class LoaderService {
         for (RequirementEntity entity:list) {
             RequirementModel requirementModel = EntitiesToModelsConverter.getRequirementModel(entity);
             ItemModel itemModel = null;
-            if(requirementModel.getItemType() == ItemPlace.ITEM)
+            if(requirementModel.getItemPlace() == ItemPlace.ITEM)
                  itemModel = items.get(entity.getItemId());
             else
                 itemModel = stats.get(entity.getItemId());

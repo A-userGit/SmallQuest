@@ -1,18 +1,9 @@
 package com.quest.commons.models;
 
-import com.quest.commons.types.ItemPlace;
+import com.quest.commons.types.ItemType;
 
 public class BaseContainerElement {
-    private ItemPlace type;
     private int quantity;
-
-    public ItemPlace getItemPlace() {
-        return type;
-    }
-
-    public void setItemPlace(ItemPlace type) {
-        this.type = type;
-    }
 
     public int getQuantity() {
         return quantity;

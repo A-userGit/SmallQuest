@@ -3,10 +3,11 @@ package com.quest.services.models;
 import com.quest.commons.interfaces.ItemSupported;
 import com.quest.commons.models.BaseRequirementModel;
 import com.quest.commons.models.ItemModel;
+import com.quest.commons.types.ItemPlace;
+import com.quest.commons.types.RequirementType;
 import com.quest.services.interfaces.IValidated;
 import com.quest.services.interfaces.RequirementComparator;
 
-import java.util.Comparator;
 import java.util.HashMap;
 
 public class RequirementModel extends BaseRequirementModel implements IValidated {
@@ -23,6 +24,11 @@ public class RequirementModel extends BaseRequirementModel implements IValidated
 
     public void setItem(ItemModel item) {
         this.item = item;
+    }
+
+    public ItemPlace getItemPlace()
+    {
+        return super.getItemPlace();
     }
 
     @Override
@@ -51,5 +57,10 @@ public class RequirementModel extends BaseRequirementModel implements IValidated
             }
         }
         return false;
+    }
+
+    @Override
+    public RequirementType getType() {
+        return super.getRequirementType();
     }
 }

@@ -1,16 +1,11 @@
 package com.quest.services.models;
 
-import com.quest.commons.interfaces.ItemIdSupported;
 import com.quest.commons.models.BaseSubActionModel;
 import com.quest.commons.models.ItemModel;
-import com.quest.commons.models.subactdata.ActionDataInterface;
 import com.quest.services.interfaces.ActionFunction;
 import com.quest.services.interfaces.Executable;
 
-import java.util.HashMap;
-import java.util.function.Function;
-
-public class SubActionModel<R> extends BaseSubActionModel implements Executable {
+public class SubActionModel extends BaseSubActionModel {
     public SubActionModel(int id) {
         super(id);
     }

@@ -1,27 +1,19 @@
-package com.quest.commons.models;
+package com.quest.commons.models.subaction.fieldconnectors;
 
 import com.quest.commons.interfaces.ReadableEnum;
+import com.quest.commons.types.ActionConnectorType;
 import com.quest.commons.types.ItemPlace;
 import com.quest.commons.types.ItemType;
 
-public class FieldValueItemPlace {
-    private int id;
+public class ActionItemFieldConnector {
 
     private ReadableEnum field;
 
-    private
+    private ActionConnectorType connectorType;
 
     private ItemPlace place;
 
     private ItemType type;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public ReadableEnum getField() {
         return field;
@@ -45,5 +37,17 @@ public class FieldValueItemPlace {
 
     public void setType(ItemType type) {
         this.type = type;
+    }
+
+    public ActionConnectorType getConnectorType() {
+        return connectorType;
+    }
+
+    public void setConnectorType(ActionConnectorType connectorType) {
+        this.connectorType = connectorType;
+    }
+
+    public ActionItemFieldConnector(ActionConnectorType connectorType) {
+        this.connectorType = connectorType;
     }
 }

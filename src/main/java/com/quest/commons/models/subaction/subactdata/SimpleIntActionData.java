@@ -1,4 +1,4 @@
-package com.quest.commons.models.subactdata;
+package com.quest.commons.models.subaction.subactdata;
 
 import com.quest.services.logic.functions.argtypes.SimpleArithmetics;
 

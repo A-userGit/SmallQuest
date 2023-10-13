@@ -1,10 +1,13 @@
 package com.quest.commons.models;
 
 import com.quest.commons.models.BaseModel;
+import com.quest.commons.types.ItemType;
 
 public class ItemModel extends BaseModel {
 
     private boolean visibleIfZero;
+
+    private ItemType type;
 
     private boolean infinite;
 
@@ -31,4 +34,11 @@ public class ItemModel extends BaseModel {
         this.infinite = infinite;
     }
 
+    public ItemType getType() {
+        return type;
+    }
+
+    public void setType(ItemType type) {
+        this.type = type;
+    }
 }

@@ -2,7 +2,8 @@ package com.quest.commons.models;
 
 import com.quest.commons.interfaces.IdSupported;
 import com.quest.commons.interfaces.ReadableEnum;
-import com.quest.commons.models.subactdata.ActionDataInterface;
+import com.quest.commons.models.subaction.fieldconnectors.ActionItemFieldConnector;
+import com.quest.commons.models.subaction.subactdata.ActionDataInterface;
 import com.quest.commons.types.ActionDataTypes;
 import com.quest.commons.types.ActionFunctionType;
 import com.quest.commons.types.ItemActionType;
@@ -25,7 +26,7 @@ public class BaseSubActionModel implements IdSupported {
 
     private ActionDataInterface changeData;
 
-    private Map<FieldValueItemPlace,ReadableEnum> sourceConsumerPairs;
+    private Map<ActionItemFieldConnector,ReadableEnum> sourceConsumerPairs;
 
     public BaseSubActionModel(int id) {
         this.id = id;
@@ -37,11 +38,11 @@ public class BaseSubActionModel implements IdSupported {
         this.changeData = changeData;
     }
 
-    public Map<FieldValueItemPlace, ReadableEnum> getSourceConsumerPairs() {
+    public Map<ActionItemFieldConnector, ReadableEnum> getSourceConsumerPairs() {
         return sourceConsumerPairs;
     }
 
-    public void setSourceConsumerPairs(Map<FieldValueItemPlace, ReadableEnum> sourceConsumerPairs) {
+    public void setSourceConsumerPairs(Map<ActionItemFieldConnector, ReadableEnum> sourceConsumerPairs) {
         this.sourceConsumerPairs = sourceConsumerPairs;
     }
 
@@ -77,11 +78,11 @@ public class BaseSubActionModel implements IdSupported {
         this.itemActionType = itemActionType;
     }
 
-    public ItemPlace getItemType() {
+    public ItemPlace getItemPlace() {
         return itemPlace;
     }
 
-    public void setItemType(ItemPlace itemPlace) {
+    public void setItemPlace(ItemPlace itemPlace) {
         this.itemPlace = itemPlace;
     }
 

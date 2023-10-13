@@ -1,6 +1,7 @@
-package com.quest.dao.repositries.subactdata;
+package com.quest.dao.repositries.subaction.subactdata;
 
 import com.quest.commons.types.ActionDataTypes;
+import com.quest.dao.repositries.subaction.ActionDataSourceInterface;
 
 public class ActionDataProvider {
     public static ActionDataSourceInterface getProvider(ActionDataTypes actionDataType)

@@ -28,7 +28,7 @@ public class EntitiesToModelsConverter {
         subActionModel.setActionFunctionType(entity.getActionFunctionType());
         subActionModel.setChangeData(entity.getChangeData());
         subActionModel.setSourceConsumerPairs(entity.getSourceConsumerPairs());
-        subActionModel.setItemType(entity.getItemType());
+        subActionModel.setItemPlace(entity.getItemPlace());
         subActionModel.setChangeFunction(FunctionProvider.getFunction(entity.getActionFunctionType()));
         return subActionModel;
     }
@@ -45,8 +45,8 @@ public class EntitiesToModelsConverter {
     public static RequirementModel getRequirementModel(RequirementEntity entity)
     {
         RequirementModel model = new RequirementModel(entity.getId(),entity.getDescription(), entity.getValue(), entity.isBlocker());
-        model.setActionType(entity.getActionType());
-        model.setItemType(entity.getItemType());
+        model.setRequirementType(entity.getRequirementType());
+        model.setItemPlace(entity.getItemPlace());
         model.setRestrictionType(entity.getRestrictionType());
         return model;
     }
@@ -75,13 +75,13 @@ public class EntitiesToModelsConverter {
     {
         ContainerItemModel<ItemContainerElement> containerItem = new ContainerItemModel<>(entity.getId(), entity.getDescription(),
         entity.isVisibleIfZero(), entity.isInfinite());
+        containerItem.setType(entity.getType());
         return containerItem;
     }
 
     public static ItemContainerElement getContainerElement(ContainerIdElement idElement)
     {
         ItemContainerElement element = new ItemContainerElement();
-        element.setItemPlace(idElement.getItemPlace());
         element.setQuantity(element.getQuantity());
         return element;
     }

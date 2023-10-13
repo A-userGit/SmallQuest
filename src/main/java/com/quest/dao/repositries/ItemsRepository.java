@@ -5,6 +5,7 @@ import com.quest.commons.models.ContainerItemModel;
 import com.quest.commons.models.ItemModel;
 import com.quest.commons.types.ItemDaoType;
 import com.quest.commons.types.ItemPlace;
+import com.quest.commons.types.ItemType;
 import com.quest.dao.entities.ContainerIdElement;
 import com.quest.dao.interfaces.ItemsDao;
 
@@ -126,6 +127,7 @@ public class ItemsRepository implements ItemsDao {
         outputStream.writeChars(entity.getDescription());
         outputStream.writeBoolean(entity.isVisibleIfZero());
         outputStream.writeBoolean(entity.isInfinite());
+        outputStream.writeInt(entity.getType().ordinal());
     }
 
     private void writeContainerEntity(ObjectOutputStream outputStream, ContainerItemModel<ContainerIdElement> entity) throws Exception {
@@ -133,6 +135,7 @@ public class ItemsRepository implements ItemsDao {
         outputStream.writeChars(entity.getDescription());
         outputStream.writeBoolean(entity.isVisibleIfZero());
         outputStream.writeBoolean(entity.isInfinite());
+        outputStream.writeInt(entity.getType().ordinal());
         List<ContainerIdElement> elements = entity.getElements();
         RepositoryUtility.writeCollection(outputStream, elements, this::writeContainerElement);
     }
@@ -140,7 +143,6 @@ public class ItemsRepository implements ItemsDao {
     private void writeContainerElement(ObjectOutputStream outputStream,ContainerIdElement element) throws IOException {
         outputStream.writeInt(element.getItemId());
         outputStream.writeInt(element.getQuantity());
-        outputStream.writeInt(element.getItemPlace().ordinal());
     }
 
     private ItemModel readEntity(ObjectInputStream inputStream) throws IOException {
@@ -149,13 +151,13 @@ public class ItemsRepository implements ItemsDao {
         boolean visibleIfZero = inputStream.readBoolean();
         boolean infinite = inputStream.readBoolean();
         ItemModel itemModel = new ItemModel(id, description, visibleIfZero, infinite);
+        itemModel.setType(ItemType.values()[inputStream.readInt()]);
         return itemModel;
     }
 
     private ContainerIdElement readContainerElement(ObjectInputStream inputStream) throws IOException {
         ContainerIdElement containerIdElement = new ContainerIdElement(inputStream.readInt());
         containerIdElement.setQuantity(inputStream.readInt());
-        containerIdElement.setItemPlace(ItemPlace.values()[inputStream.readInt()]);
         return containerIdElement;
     }
 

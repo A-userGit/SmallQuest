@@ -1,6 +1,6 @@
 package com.quest.services.logic.functions;
 
-import com.quest.commons.models.subactdata.SimpleIntActionData;
+import com.quest.commons.models.subaction.subactdata.SimpleIntActionData;
 import com.quest.services.interfaces.ActionFunction;
 import com.quest.services.logic.functions.argtypes.Answer;
 

@@ -1,12 +1,11 @@
 package com.quest.commons.models;
 
-import com.quest.commons.types.ItemActionType;
 import com.quest.commons.types.ItemPlace;
+import com.quest.commons.types.ItemType;
+import com.quest.commons.types.RequirementType;
 import com.quest.commons.types.RestrictionType;
 
 public class BaseRequirementModel extends BaseModel{
-
-    private ItemActionType actionType;
 
     private boolean blocker;
 
@@ -16,18 +15,14 @@ public class BaseRequirementModel extends BaseModel{
 
     private RestrictionType restrictionType;
 
+    private RequirementType requirementType;
+
+    private ItemType itemType;
+
     public BaseRequirementModel(int id, String description, int value, boolean blocker) {
         super(id, description);
         this.blocker = blocker;
         this.value = value;
-    }
-
-    public ItemActionType getActionType() {
-        return actionType;
-    }
-
-    public void setActionType(ItemActionType actionType) {
-        this.actionType = actionType;
     }
 
     public boolean isBlocker() {
@@ -46,11 +41,11 @@ public class BaseRequirementModel extends BaseModel{
         this.value = value;
     }
 
-    public ItemPlace getItemType() {
+    public ItemPlace getItemPlace() {
         return itemPlace;
     }
 
-    public void setItemType(ItemPlace itemPlace) {
+    public void setItemPlace(ItemPlace itemPlace) {
         this.itemPlace = itemPlace;
     }
 
@@ -60,5 +55,21 @@ public class BaseRequirementModel extends BaseModel{
 
     public void setRestrictionType(RestrictionType restrictionType) {
         this.restrictionType = restrictionType;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
+
+    public RequirementType getRequirementType() {
+        return requirementType;
+    }
+
+    public void setRequirementType(RequirementType requirementType) {
+        this.requirementType = requirementType;
     }
 }

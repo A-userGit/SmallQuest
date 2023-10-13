@@ -1,7 +1,8 @@
-package com.quest.dao.repositries.subactdata;
+package com.quest.dao.repositries.subaction.subactdata;
 
-import com.quest.commons.models.subactdata.ActionDataInterface;
-import com.quest.commons.models.subactdata.RandomActionData;
+import com.quest.commons.models.subaction.subactdata.ActionDataInterface;
+import com.quest.commons.models.subaction.subactdata.RandomActionData;
+import com.quest.dao.repositries.subaction.ActionDataSourceInterface;
 
 import java.io.*;
 

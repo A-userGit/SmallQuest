@@ -1,6 +1,6 @@
 package com.quest.services.logic.functions;
 
-import com.quest.commons.models.subactdata.RandomActionData;
+import com.quest.commons.models.subaction.subactdata.RandomActionData;
 import com.quest.services.interfaces.ActionFunction;
 import com.quest.services.logic.functions.argtypes.Answer;
 

@@ -1,15 +1,16 @@
 package com.quest.dao.repositries;
 
 import com.quest.commons.interfaces.ReadableEnum;
-import com.quest.commons.models.FieldValueItemPlace;
+import com.quest.commons.models.subaction.fieldconnectors.ActionItemFieldConnector;
 import com.quest.commons.types.ActionDataTypes;
 import com.quest.commons.types.ActionFunctionType;
 import com.quest.commons.types.ItemActionType;
 import com.quest.commons.types.ItemPlace;
 import com.quest.dao.entities.SubActionEntity;
 import com.quest.dao.interfaces.SubActionsDao;
-import com.quest.dao.repositries.subactdata.ActionDataProvider;
-import com.quest.dao.repositries.subactdata.ActionDataSourceInterface;
+import com.quest.dao.repositries.subaction.FieldConnectorsRepoProvider;
+import com.quest.dao.repositries.subaction.subactdata.ActionDataProvider;
+import com.quest.dao.repositries.subaction.ActionDataSourceInterface;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -91,14 +92,14 @@ public class SubActionRepository implements SubActionsDao {
 
     private SubActionEntity readEntity(ObjectInputStream inputStream) throws Exception {
         SubActionEntity subActionsEntity = new SubActionEntity(inputStream.readInt(), inputStream.readInt());
-        subActionsEntity.setItemType(ItemPlace.values()[inputStream.readInt()]);
+        subActionsEntity.setItemPlace(ItemPlace.values()[inputStream.readInt()]);
         subActionsEntity.setItemActionType(ItemActionType.values()[inputStream.readInt()]);
         subActionsEntity.setActionDataType(ActionDataTypes.values()[inputStream.readInt()]);
         subActionsEntity.setActionFunctionType(ActionFunctionType.values()[inputStream.readInt()]);
         ActionDataSourceInterface provider = ActionDataProvider.getProvider(subActionsEntity.getActionDataType());
         subActionsEntity.setChangeData(provider.readData(inputStream));
-        Map<ReadableEnum, FieldValueItemPlace> readableEnumMap = RepositoryUtility.readMap(inputStream, RepositoryUtility::readEnum,
-                RepositoryUtility::readFieldValueItemPlace);
+        Map<ActionItemFieldConnector, ReadableEnum> readableEnumMap = RepositoryUtility.readMap(inputStream,
+                FieldConnectorsRepoProvider::getConnector, RepositoryUtility::readEnum);
         subActionsEntity.setSourceConsumerPairs(readableEnumMap);
         return subActionsEntity;
     }
@@ -106,13 +107,13 @@ public class SubActionRepository implements SubActionsDao {
     private void writeEntity(ObjectOutputStream outputStream, SubActionEntity entity) throws Exception {
         outputStream.write(entity.getId());
         outputStream.writeInt(entity.getItemId());
-        outputStream.writeInt(entity.getItemType().ordinal());
+        outputStream.writeInt(entity.getItemPlace().ordinal());
         outputStream.writeInt(entity.getItemActionType().ordinal());
         outputStream.writeInt(entity.getActionDataType().ordinal());
         outputStream.writeInt(entity.getActionFunctionType().ordinal());
         ActionDataSourceInterface provider = ActionDataProvider.getProvider(entity.getActionDataType());
         provider.writeData(outputStream, entity.getChangeData());
-        RepositoryUtility.writeMap(outputStream, entity.getSourceConsumerPairs(), RepositoryUtility::writeFieldValueItemPlace,
+        RepositoryUtility.writeMap(outputStream, entity.getSourceConsumerPairs(), FieldConnectorsRepoProvider::writeConnector,
                 RepositoryUtility::writeEnum);
     }
 }

@@ -2,12 +2,9 @@ package com.quest.services.logic;
 
 import com.quest.commons.exceptions.DataException;
 import com.quest.commons.exceptions.NoSuchItemException;
-import com.quest.commons.interfaces.ReadableEnum;
-import com.quest.commons.models.FieldValueItemPlace;
+import com.quest.commons.models.subaction.fieldconnectors.ActionItemFieldConnector;
 import com.quest.commons.models.ItemModel;
 import com.quest.commons.types.ItemPlace;
-import com.quest.services.comparators.ItemQuantityComparator;
-import com.quest.services.comparators.StatComparator;
 import com.quest.services.interfaces.IValidated;
 import com.quest.services.interfaces.RequirementComparator;
 import com.quest.services.logic.functions.NumFuncAnswer;
@@ -31,7 +28,7 @@ public class GameService {
 
     private UserModel currentPlayer;
 
-    private List<RequirementModel> failedRequirements;
+    private List<IValidated> failedRequirements;
 
     public String getDataPath() {
         return dataPath;
@@ -60,30 +57,15 @@ public class GameService {
         currentPosition = nodes.get(0);
     }
 
-    private List<RequirementModel> checkAllowedAction(IValidated actionToValidate)
+    private List<IValidated> checkRequirements(List<IValidated> requirements, HashMap items)
     {
-        ActionModel action = (ActionModel) actionToValidate;
-        List<RequirementModel> rejectedRequirements = new ArrayList<>();
-        boolean valid = true;
-        List<RequirementModel> statsRequirements = action.getStatsRequirements();
-        for (RequirementModel statsReq:statsRequirements) {
-            valid = statsReq.isValid(currentPlayer.getStats(),new StatComparator());
+        List<IValidated> rejectedRequirements = new ArrayList<>();
+        boolean valid;
+        for (IValidated requirement:requirements) {
+            RequirementComparator comparator = ReqComparatorsProvider.getComparator(requirement.getItemType(), requirement.getType());
+            valid = requirement.isValid(items, comparator);
             if(!valid)
-                rejectedRequirements.add(statsReq);
-        }
-        List<RequirementModel> itemsRequirements = action.getItemsRequirements();
-        for (RequirementModel itemReq:itemsRequirements) {
-            RequirementComparator comparator = new ItemQuantityComparator();
-            switch (itemReq.getItemType())
-            {
-                case ITEM: valid = itemReq.isValid(currentPosition.getItems(), comparator);
-                break;
-                case PLAYER_ITEM: valid = itemReq.isValid(currentPlayer.getInventory(), comparator);
-                break;
-            }
-            if(!valid) {
-                rejectedRequirements.add(itemReq);
-            }
+                rejectedRequirements.add(requirement);
         }
         return rejectedRequirements;
     }
@@ -92,15 +74,16 @@ public class GameService {
     {
         List<NumFuncAnswer> intermediateResults = new ArrayList<>();
         for (SubActionModel subAction: subActions) {
-            subAction.getActionDataType() ==
+            Map<ItemPlace, Map> requiredData = getRequiredData(subAction);
+
         }
     }
 
-    private Map<ItemPlace,Map> getRequiredData(SubActionModel subAction)
+    protected Map<ItemPlace,Map> getRequiredData(SubActionModel subAction)
     {
         Map<ItemPlace, Map> requiredData = new HashMap<ItemPlace,Map>();
-        Set<FieldValueItemPlace> fieldValueItemPlaces = subAction.getSourceConsumerPairs().keySet();
-        for (FieldValueItemPlace place :fieldValueItemPlaces) {
+        Set<ActionItemFieldConnector> actionItemFieldConnectors = subAction.getSourceConsumerPairs().keySet();
+        for (ActionItemFieldConnector place : actionItemFieldConnectors) {
             switch (place.getPlace())
             {
                 case STAT-> {
@@ -120,12 +103,23 @@ public class GameService {
         return requiredData;
     }
 
+    protected void setSubActionData(SubActionModel subAction, Map<ItemPlace, Map> data)
+    {
+        Set<ItemPlace> itemPlaces = data.keySet();
+        for (ItemPlace place: itemPlaces) {
+            Map map = data.get(place);
+            subAction.getSourceConsumerPairs().
+            DataSetterProvider.getDataSetter(,subAction.getActionDataType());
+
+        }
+    }
+
     public boolean makeTurn(int actionId)
     {
         List<ActionModel> actions = currentPosition.getActions();
         Optional<ActionModel> first = actions.stream().filter(s -> s.getId() == actionId).findFirst();
         ActionModel chosenAction = first.get();
-        List<RequirementModel> currFailedRequirements = checkAllowedAction(chosenAction);
+        List<IValidated> currFailedRequirements = checkAllowedAction(chosenAction);
         if(!currFailedRequirements.isEmpty()) {
             failedRequirements = new ArrayList<>(currFailedRequirements);
             return false;
@@ -135,6 +129,20 @@ public class GameService {
         List<SubActionModel> allSubActions = new ArrayList<>(subActions);
         allSubActions.addAll(environmentActions);
 
+    }
+
+    protected List<IValidated> checkAllowedAction(ActionModel chosenAction) {
+        List<IValidated> rejectedRequirements;
+        List<IValidated> itemsRequirements = new ArrayList<>(chosenAction.getItemsRequirements());
+        List<IValidated> inventoryReq = itemsRequirements.stream().filter(p -> p.getPlace() == ItemPlace.PLAYER_ITEM).toList();
+        rejectedRequirements = checkRequirements(inventoryReq, currentPlayer.getInventory());
+        List<IValidated> statsRequirements = new ArrayList<>(chosenAction.getStatsRequirements());
+        List<IValidated> rejectedStats = checkRequirements(statsRequirements, currentPlayer.getStats());
+        rejectedRequirements.addAll(rejectedStats);
+        List<IValidated> placeItemsReq = itemsRequirements.stream().filter(p -> p.getPlace() == ItemPlace.ITEM).toList();
+        List<IValidated> rejectedPlaceItems = checkRequirements(placeItemsReq, currentPosition.getItems());
+        rejectedRequirements.addAll(rejectedPlaceItems);
+        return rejectedRequirements;
     }
 
 }

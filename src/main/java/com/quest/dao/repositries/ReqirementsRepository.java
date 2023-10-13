@@ -1,7 +1,7 @@
 package com.quest.dao.repositries;
 
-import com.quest.commons.types.ItemActionType;
 import com.quest.commons.types.ItemPlace;
+import com.quest.commons.types.RequirementType;
 import com.quest.commons.types.RestrictionType;
 import com.quest.dao.entities.RequirementEntity;
 import com.quest.dao.interfaces.RequirementsDao;
@@ -43,9 +43,9 @@ public class ReqirementsRepository implements RequirementsDao {
                 boolean blocker = inputStream.readBoolean();
                 RequirementEntity requirementEntity = new RequirementEntity(id, description, value, blocker);
                 requirementEntity.setItemId(itemId);
-                requirementEntity.setItemType(ItemPlace.values()[inputStream.readInt()]);
+                requirementEntity.setItemPlace(ItemPlace.values()[inputStream.readInt()]);
                 requirementEntity.setRestrictionType(RestrictionType.values()[inputStream.readInt()]);
-                requirementEntity.setActionType(ItemActionType.values()[inputStream.readInt()]);
+                requirementEntity.setRequirementType(RequirementType.values()[inputStream.readInt()]);
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -93,8 +93,8 @@ public class ReqirementsRepository implements RequirementsDao {
         outputStream.writeInt(entity.getValue());
         outputStream.writeInt(entity.getItemId());
         outputStream.writeBoolean(entity.isBlocker());
-        outputStream.writeInt(entity.getItemType().ordinal());
+        outputStream.writeInt(entity.getItemPlace().ordinal());
         outputStream.writeInt(entity.getRestrictionType().ordinal());
-        outputStream.writeInt(entity.getActionType().ordinal());
+        outputStream.writeInt(entity.getRequirementType().ordinal());
     }
 }

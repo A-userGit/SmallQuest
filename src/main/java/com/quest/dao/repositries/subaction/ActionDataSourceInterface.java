@@ -1,6 +1,6 @@
-package com.quest.dao.repositries.subactdata;
+package com.quest.dao.repositries.subaction;
 
-import com.quest.commons.models.subactdata.ActionDataInterface;
+import com.quest.commons.models.subaction.subactdata.ActionDataInterface;
 
 import java.io.*;
 
