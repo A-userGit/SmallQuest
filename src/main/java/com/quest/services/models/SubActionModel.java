@@ -1,24 +1,26 @@
 package com.quest.services.models;
 
+import com.quest.commons.interfaces.ItemSupported;
 import com.quest.commons.models.BaseSubActionModel;
 import com.quest.commons.models.ItemModel;
 import com.quest.services.interfaces.ActionFunction;
-import com.quest.services.interfaces.Executable;
 
 public class SubActionModel extends BaseSubActionModel {
     public SubActionModel(int id) {
         super(id);
     }
 
-    private ItemModel item;
+    private ItemSupported item;
+
+    private int itemId;
 
     private ActionFunction changeFunction;
 
-    public ItemModel getItem() {
+    public ItemSupported getItem() {
         return item;
     }
 
-    public void setItem(ItemModel item) {
+    public void setItem(ItemSupported item) {
         this.item = item;
     }
 
@@ -28,5 +30,13 @@ public class SubActionModel extends BaseSubActionModel {
 
     public void setChangeFunction(ActionFunction changeFunction) {
         this.changeFunction = changeFunction;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 }

@@ -56,7 +56,7 @@ public class LoaderService {
         List<ContainerIdElement> elements = entity.getElements();
         for (ContainerIdElement idElement:elements) {
             ItemContainerElement containerElement = EntitiesToModelsConverter.getContainerElement(idElement);
-            switch (idElement.get)
+            switch (idElement.)
             {
                 case STAT -> containerElement.setItem(stats.get(idElement.getItemId()));
                 case ITEM -> containerElement.setItem(items.get(idElement.getItemId()));
@@ -91,17 +91,11 @@ public class LoaderService {
         return listResult;
     }
 
-    public List<SubActionModel> loadSubAction(HashMap<Integer,ItemModel> items) throws NoSuchItemException {
+    public List<SubActionModel> loadSubAction() {
         List<SubActionEntity> list = subActionsDao.getList();
         List<SubActionModel> results = new ArrayList<>();
         for (SubActionEntity entity: list) {
             SubActionModel subActionModel = EntitiesToModelsConverter.getSubActionModel(entity);
-            ItemModel itemModel = items.get(entity.getItemId());
-            if(itemModel == null) {
-                String name = items.getClass().getComponentType().getCanonicalName();
-                throw new NoSuchItemException(entity.getItemId(), name);
-            }
-            subActionModel.setItem(itemModel);
             results.add(subActionModel);
         }
         return results;

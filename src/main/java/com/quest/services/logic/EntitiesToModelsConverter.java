@@ -30,6 +30,7 @@ public class EntitiesToModelsConverter {
         subActionModel.setSourceConsumerPairs(entity.getSourceConsumerPairs());
         subActionModel.setItemPlace(entity.getItemPlace());
         subActionModel.setChangeFunction(FunctionProvider.getFunction(entity.getActionFunctionType()));
+        subActionModel.setItemId(entity.getItemId());
         return subActionModel;
     }
 

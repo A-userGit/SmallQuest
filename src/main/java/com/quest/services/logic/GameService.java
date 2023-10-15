@@ -2,13 +2,21 @@ package com.quest.services.logic;
 
 import com.quest.commons.exceptions.DataException;
 import com.quest.commons.exceptions.NoSuchItemException;
-import com.quest.commons.models.subaction.fieldconnectors.ActionItemFieldConnector;
+import com.quest.commons.interfaces.ItemSupported;
 import com.quest.commons.models.ItemModel;
+import com.quest.commons.models.subaction.fieldconnectors.ActionItemFieldConnector;
+import com.quest.commons.models.subaction.subactdata.ActionDataInterface;
+import com.quest.commons.types.ActionConnectorType;
 import com.quest.commons.types.ItemPlace;
+import com.quest.commons.types.ItemType;
+import com.quest.services.interfaces.DataSetter;
+import com.quest.services.interfaces.FuncResult;
 import com.quest.services.interfaces.IValidated;
 import com.quest.services.interfaces.RequirementComparator;
-import com.quest.services.logic.functions.NumFuncAnswer;
-import com.quest.services.models.*;
+import com.quest.services.models.ActionModel;
+import com.quest.services.models.MapNode;
+import com.quest.services.models.SubActionModel;
+import com.quest.services.models.UserModel;
 
 import java.util.*;
 
@@ -70,11 +78,28 @@ public class GameService {
         return rejectedRequirements;
     }
 
+    protected void setItemToSubAction(SubActionModel subAction)
+    {
+        ItemSupported item = null;
+        if(subAction.getItemId()<=-1)
+            return;
+        switch (subAction.getItemPlace())
+        {
+            case STAT -> item = this.currentPlayer.getStats().get(subAction.getItemId());
+            case ITEM -> item = this.currentPosition.getItems().get(subAction.getItemId());
+            case PLAYER_ITEM -> item = this.currentPlayer.getInventory().get(subAction.getItemId());
+        }
+        subAction.setItem(item);
+    }
+
     public void processSubActions(List<SubActionModel> subActions)
     {
-        List<NumFuncAnswer> intermediateResults = new ArrayList<>();
+        List<FuncResult> intermediateResults = new ArrayList<>();
         for (SubActionModel subAction: subActions) {
             Map<ItemPlace, Map> requiredData = getRequiredData(subAction);
+            setSubActionData(subAction,requiredData);
+            setItemToSubAction(subAction);
+
 
         }
     }
@@ -105,12 +130,25 @@ public class GameService {
 
     protected void setSubActionData(SubActionModel subAction, Map<ItemPlace, Map> data)
     {
+        DataSetterProvider provider = new DataSetterProvider();
         Set<ItemPlace> itemPlaces = data.keySet();
         for (ItemPlace place: itemPlaces) {
             Map map = data.get(place);
-            subAction.getSourceConsumerPairs().
-            DataSetterProvider.getDataSetter(,subAction.getActionDataType());
-
+            for(int i = 0; i<ItemType.values().length; i++)
+            {
+                ItemType itemType = ItemType.values()[i];
+                for(int j = 0; j< ActionConnectorType.values().length; j++) {
+                    ActionConnectorType connectorType = ActionConnectorType.values()[j];
+                    List<ActionItemFieldConnector> keys = subAction.getSourceConsumerPairs().keySet().
+                            stream().filter(k -> k.getPlace() == place && k.getType() == itemType
+                            &&k.getConnectorType() == connectorType).toList();
+                    if (keys.size() == 0)
+                        continue;
+                    DataSetter dataSetter = provider.getDataSetter(itemType, subAction.getActionDataType(), connectorType);
+                    ActionDataInterface aData = dataSetter.setData(map, subAction.getChangeData(), subAction.getSourceConsumerPairs(), keys);
+                    subAction.setChangeData(aData);
+                }
+            }
         }
     }
 

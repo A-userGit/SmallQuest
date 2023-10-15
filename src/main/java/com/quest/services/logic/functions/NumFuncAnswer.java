@@ -1,6 +1,6 @@
 package com.quest.services.logic.functions;
 
-import com.quest.commons.interfaces.ReadableEnum;
+
 import com.quest.services.logic.functions.argtypes.Answer;
 
 public class NumFuncAnswer {
