@@ -51,7 +51,7 @@ public class MapService {
         LoaderService service = new LoaderService(dataPath);
         stats = service.loadStats();
         items = service.loadItems(stats);
-        List<SubActionModel> subActions = service.loadSubAction(items);
+        List<SubActionModel> subActions = service.loadSubAction();
         List<RequirementModel> requirements = service.loadRequirements(items, stats);
         List<ActionModel> actions = service.loadActions(subActions, requirements);
         nodes = service.loadMapNodes(subActions, actions);

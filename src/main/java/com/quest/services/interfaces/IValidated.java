@@ -17,5 +17,5 @@ public interface IValidated <T extends ItemSupported>{
 
     public RequirementType getType();
 
-    public ItemPlace getPlace();
+    public ItemPlace getItemPlace();
 }

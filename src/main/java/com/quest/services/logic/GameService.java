@@ -6,9 +6,7 @@ import com.quest.commons.interfaces.ItemSupported;
 import com.quest.commons.models.ItemModel;
 import com.quest.commons.models.subaction.fieldconnectors.ActionItemFieldConnector;
 import com.quest.commons.models.subaction.subactdata.ActionDataInterface;
-import com.quest.commons.types.ActionConnectorType;
-import com.quest.commons.types.ItemPlace;
-import com.quest.commons.types.ItemType;
+import com.quest.commons.types.*;
 import com.quest.services.interfaces.DataSetter;
 import com.quest.services.interfaces.FuncResult;
 import com.quest.services.interfaces.IValidated;
@@ -100,7 +98,6 @@ public class GameService {
             setSubActionData(subAction,requiredData);
             setItemToSubAction(subAction);
 
-
         }
     }
 
@@ -152,20 +149,30 @@ public class GameService {
         }
     }
 
+    protected boolean processAction(ActionModel action)
+    {
+        List<IValidated> currFailedRequirements = checkAllowedAction(action);
+        if(!currFailedRequirements.isEmpty()) {
+            if(action.getActionRole() == ActionRole.ACTIVE)
+                failedRequirements = new ArrayList<>(currFailedRequirements);
+            return false;
+        }
+        List<SubActionModel> subActions = action.getSubActions();
+        processSubActions(subActions);
+    }
+
     public boolean makeTurn(int actionId)
     {
+        currentActions.stream().dropWhile(a->checkAllowedAction(a).stream().filter(v->v.getType() == RequirementType.SIMPLE).toList().isEmpty());
+        for (ActionModel action:currentActions) {
+            action.setTurnsActive(action.getTurnsActive()-1);
+            processAction(action);
+            if(action.)
+        }
         List<ActionModel> actions = currentPosition.getActions();
         Optional<ActionModel> first = actions.stream().filter(s -> s.getId() == actionId).findFirst();
         ActionModel chosenAction = first.get();
-        List<IValidated> currFailedRequirements = checkAllowedAction(chosenAction);
-        if(!currFailedRequirements.isEmpty()) {
-            failedRequirements = new ArrayList<>(currFailedRequirements);
-            return false;
-        }
-        List<SubActionModel> subActions = chosenAction.getSubActions();
-        List<SubActionModel> environmentActions = currentPosition.getEnvironmentActions();
-        List<SubActionModel> allSubActions = new ArrayList<>(subActions);
-        allSubActions.addAll(environmentActions);
+
 
     }
 
